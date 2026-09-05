@@ -72,7 +72,7 @@ impl BehavioralProfile {
     pub fn observe(
         &mut self,
         fuel: u64,
-        host_calls: u32,
+        host_calls: u64,
         denied: bool,
         entropy: f32,
     ) {
@@ -178,7 +178,7 @@ impl AdaptiveThreatDetector {
         &self,
         module_id: &str,
         fuel_consumed: u64,
-        host_calls: u32,
+        host_calls: u64,
         had_denial: bool,
         payload_entropy: f32,
     ) -> ThreatAssessment {

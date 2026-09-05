@@ -552,4 +552,15 @@ impl WorldVmRuntime {
             data.enforcer.advance_tick(tick);
         }
     }
+
+    /// Returns a reference to the runtime's adaptive threat detector.
+    pub fn sentinel(&self) -> &worldvm_sentinel::AdaptiveThreatDetector {
+        &self.sentinel
+    }
+
+    /// Retrieves behavioral profile metrics for a loaded module.
+    pub fn get_behavioral_profile(&self, module_id: &str) -> Option<worldvm_sentinel::BehavioralProfile> {
+        self.sentinel.get_profile(module_id)
+    }
 }
+

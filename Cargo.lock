@@ -1909,7 +1909,9 @@ dependencies = [
  "worldvm-abi",
  "worldvm-capabilities",
  "worldvm-core",
+ "worldvm-metering",
  "worldvm-package",
+ "worldvm-sentinel",
  "worldvm-signing",
  "worldvm-simulator",
 ]
