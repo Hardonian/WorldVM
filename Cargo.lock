@@ -1867,6 +1867,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "worldvm-metering"
+version = "1.0.0"
+dependencies = [
+ "ed25519-dalek",
+ "hex",
+ "parking_lot",
+ "serde",
+ "serde_json",
+ "sha2",
+ "thiserror",
+ "worldvm-core",
+ "worldvm-signing",
+]
+
+[[package]]
 name = "worldvm-package"
 version = "1.0.0"
 dependencies = [
@@ -1906,6 +1921,19 @@ dependencies = [
  "serde",
  "serde_json",
  "worldvm-abi",
+ "worldvm-core",
+]
+
+[[package]]
+name = "worldvm-sentinel"
+version = "1.0.0"
+dependencies = [
+ "hex",
+ "parking_lot",
+ "serde",
+ "serde_json",
+ "sha2",
+ "thiserror",
  "worldvm-core",
 ]
 

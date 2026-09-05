@@ -139,3 +139,40 @@ pub fn verify_package_signature(
 
     Ok(effective_trust)
 }
+
+/// Verifies an Ed25519 signature over an arbitrary content string.
+pub fn verify_raw_signature(
+    public_key_hex: &str,
+    content: &str,
+    signature_hex: &str,
+) -> Result<bool, WorldVmError> {
+    let pub_key_bytes = hex::decode(public_key_hex).map_err(|e| WorldVmError::InvalidSignature {
+        reason: format!("Invalid public key hex: {e}"),
+    })?;
+
+    let pub_key_arr: [u8; 32] = pub_key_bytes
+        .try_into()
+        .map_err(|_| WorldVmError::InvalidSignature {
+            reason: "Public key must be 32 bytes".to_string(),
+        })?;
+
+    let verifying_key = VerifyingKey::from_bytes(&pub_key_arr).map_err(|e| {
+        WorldVmError::InvalidSignature {
+            reason: format!("Invalid Ed25519 public key: {e}"),
+        }
+    })?;
+
+    let sig_bytes = hex::decode(signature_hex).map_err(|e| WorldVmError::InvalidSignature {
+        reason: format!("Invalid signature hex: {e}"),
+    })?;
+
+    let sig_arr: [u8; 64] = sig_bytes
+        .try_into()
+        .map_err(|_| WorldVmError::InvalidSignature {
+            reason: "Signature must be 64 bytes".to_string(),
+        })?;
+
+    let signature = Signature::from_bytes(&sig_arr);
+    Ok(verifying_key.verify(content.as_bytes(), &signature).is_ok())
+}
+

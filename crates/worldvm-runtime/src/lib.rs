@@ -74,6 +74,7 @@ pub struct WorldVmRuntime {
     contract: WorldCapabilityContract,
     provider: Arc<dyn WorldCapabilityProvider>,
     is_server: bool,
+    sentinel: worldvm_sentinel::AdaptiveThreatDetector,
 }
 
 impl WorldVmRuntime {
@@ -222,6 +223,7 @@ impl WorldVmRuntime {
             contract,
             provider,
             is_server,
+            sentinel: worldvm_sentinel::AdaptiveThreatDetector::new(),
         })
     }
 
@@ -436,6 +438,23 @@ impl WorldVmRuntime {
         loaded.store.data_mut().metrics.invocations += 1;
         loaded.store.data_mut().metrics.fuel_consumed += consumed_fuel;
         loaded.store.data_mut().metrics.execution_time_us += elapsed_us;
+
+        // Evaluate autonomous threat detector
+        let had_denial = loaded.store.data().last_denial.is_some();
+        let entropy = worldvm_sentinel::AdaptiveThreatDetector::calculate_entropy(payload);
+        let host_calls = loaded.store.data().metrics.host_calls;
+        let assessment = self.sentinel.evaluate(
+            module_id,
+            consumed_fuel,
+            host_calls,
+            had_denial,
+            entropy,
+        );
+
+        if assessment.should_quarantine {
+            warn!("Sentinel quarantine triggered for module '{}': {}", module_id, assessment.primary_indicator);
+            loaded.store.data_mut().is_disabled = true;
+        }
 
         // Check invocation trap
         match invocation_result {

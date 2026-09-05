@@ -12,6 +12,8 @@ members = [
     "crates/worldvm-c-api",
     "crates/worldvm-server",
     "crates/worldvm-cli",
+    "crates/worldvm-sentinel",
+    "crates/worldvm-metering",
     "reference-game",
     "tests/synthetic",
 ]

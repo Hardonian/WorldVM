@@ -1,0 +1,19 @@
+[package]
+name = "worldvm-metering"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Creator monetization, marketplace economics, compute billing, and cryptographic receipts for WorldVM."
+
+[dependencies]
+worldvm-core = { path = "../worldvm-core" }
+worldvm-signing = { path = "../worldvm-signing" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha2 = "0.10"
+hex = "0.4"
+ed25519-dalek = { version = "2.1", features = ["rand_core"] }
+parking_lot = "0.12"
+thiserror = "2.0"
