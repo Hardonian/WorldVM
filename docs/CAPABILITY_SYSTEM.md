@@ -11,7 +11,7 @@ WorldVM enforces a capability-based security model. In traditional modding syste
 Capabilities belong to strict functional categories:
 
 | Category | Description | Examples |
-|---|---|---|
+| --- | --- | --- |
 | **`Read`** | Non-mutating observation of world or player state. | `world.get_gravity`, `player.read_position` |
 | **`Write`** | Safe mutations of gameplay state within defined limits. | `world.set_gravity`, `world.spawn` |
 | **`Economy`** | Modifications to XP, currency, inventory, or rewards (server-only). | `player.grant_xp`, `inventory.grant` |
