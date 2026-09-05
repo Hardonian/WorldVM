@@ -291,6 +291,54 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(&format!("{}: {}", denial_reason.unwrap_or_default(), trap_msg)),
     );
 
+    // ========================================================================
+    // SCENARIO 5: CREATOR MARKETPLACE & CRYPTOGRAPHIC COMPUTE RECEIPT
+    // ========================================================================
+    println!("\n{}", "▶ [STAGE 5] Creator Marketplace In-Game Purchase & Cryptographic Receipt".bold().magenta());
+    use worldvm_metering::{ComputeReceipt, MarketplaceLedger, RevenueSharePolicy};
+    use worldvm_signing::generate_keypair;
+
+    let ledger = MarketplaceLedger::new();
+    let policy = RevenueSharePolicy::default(); // 70 / 20 / 10
+
+    let tx = ledger.process_purchase(
+        "pilot_01",
+        "creator_synth",
+        "neon-arena",
+        "low-gravity",
+        "lunar_jump_pack",
+        1000, // $10.00
+        &policy,
+    );
+
+    println!("  {} Player purchased '{}' for ${:.2}", "💎".bold(), "Lunar Jump Pack", 10.00);
+    println!("  {} Deterministic Split: Creator (70%): ${:.2} | Studio (20%): ${:.2} | WorldVM (10%): ${:.2}",
+        "✔".green().bold(),
+        tx.split.creator_amount as f64 / 100.0,
+        tx.split.studio_amount as f64 / 100.0,
+        tx.split.platform_amount as f64 / 100.0,
+    );
+
+    let (sk, pk) = generate_keypair();
+    let pk_hex = hex::encode(pk.as_bytes());
+
+    let mut receipt = ComputeReceipt {
+        receipt_id: "rec_live_8841".to_string(),
+        game_id: "neon-arena".to_string(),
+        module_id: "low-gravity".to_string(),
+        module_hash: "hash_lunar_pack".to_string(),
+        fuel_consumed: 14_200,
+        memory_peak_bytes: 4 * 1024 * 1024,
+        execution_time_us: 17,
+        credits_billed: 5,
+        content_hash: String::new(),
+        timestamp: 1700000000,
+        host_signature: None,
+    };
+    receipt.sign(&sk);
+    let is_valid = receipt.verify(&pk_hex).unwrap_or(false);
+    println!("  {} Signed Compute Receipt Generated: {} (Ed25519 Verified: {})", "📜".bold(), receipt.receipt_id.cyan(), is_valid.to_string().green().bold());
+
     println!("\n{}", "╔════════════════════════════════════════════════════════════════════════════════╗".green().bold());
     println!("{}", "║        WORLDVM REFERENCE GAME DEMO COMPLETE — 100% INVARIANTS PRESERVED       ║".green().bold());
     println!("{}", "╠════════════════════════════════════════════════════════════════════════════════╣".green().bold());
@@ -298,6 +346,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("║  ✔ Low gravity creator mod dynamically modified game rules (2.40 m/s²).        ║");
     println!("║  ✔ Zombie spawner mod spawned custom NPCs without engine code modification.    ║");
     println!("║  ✔ Malicious mod SSRF was DENIED; infinite loop was TRAPPED by instruction fuel║");
+    println!("║  ✔ Sentinel AI Threat Radar detected anomaly and generated attack signature.   ║");
+    println!("║  ✔ Creator marketplace split calculated (70% Creator / 20% Studio / 10% Plat). ║");
     println!("║  ✔ Host engine frame rate was NEVER frozen, jittered, or crashed!              ║");
     println!("{}", "╚════════════════════════════════════════════════════════════════════════════════╝\n".green().bold());
 

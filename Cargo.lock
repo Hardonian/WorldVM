@@ -986,8 +986,11 @@ dependencies = [
  "worldvm-abi",
  "worldvm-capabilities",
  "worldvm-core",
+ "worldvm-metering",
  "worldvm-package",
  "worldvm-runtime",
+ "worldvm-sentinel",
+ "worldvm-signing",
 ]
 
 [[package]]
