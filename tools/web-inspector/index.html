@@ -203,8 +203,8 @@
                 <span class="toggle-title">world.set_gravity</span>
                 <span class="toggle-desc">Permit modifying physics gravity vector</span>
               </div>
-              <label class="switch">
-                <input type="checkbox" id="perm-gravity" checked onchange="updateManifestPreview()">
+              <label class="switch" for="perm-gravity">
+                <input type="checkbox" id="perm-gravity" title="Toggle world.set_gravity capability" aria-label="Toggle world.set_gravity capability" checked onchange="updateManifestPreview()">
                 <span class="slider"></span>
               </label>
             </div>
@@ -214,8 +214,8 @@
                 <span class="toggle-title">world.spawn</span>
                 <span class="toggle-desc">Permit spawning registered entity prefabs</span>
               </div>
-              <label class="switch">
-                <input type="checkbox" id="perm-spawn" checked onchange="updateManifestPreview()">
+              <label class="switch" for="perm-spawn">
+                <input type="checkbox" id="perm-spawn" title="Toggle world.spawn capability" aria-label="Toggle world.spawn capability" checked onchange="updateManifestPreview()">
                 <span class="slider"></span>
               </label>
             </div>
@@ -225,8 +225,8 @@
                 <span class="toggle-title">ui.notify</span>
                 <span class="toggle-desc">Permit displaying toasts and HUD alerts</span>
               </div>
-              <label class="switch">
-                <input type="checkbox" id="perm-ui" checked onchange="updateManifestPreview()">
+              <label class="switch" for="perm-ui">
+                <input type="checkbox" id="perm-ui" title="Toggle ui.notify capability" aria-label="Toggle ui.notify capability" checked onchange="updateManifestPreview()">
                 <span class="slider"></span>
               </label>
             </div>
@@ -236,8 +236,8 @@
                 <span class="toggle-title toggle-danger">net.http (SSRF Target)</span>
                 <span class="toggle-desc">Arbitrary network sockets (Hostile vector)</span>
               </div>
-              <label class="switch">
-                <input type="checkbox" id="perm-net" onchange="updateManifestPreview()">
+              <label class="switch" for="perm-net">
+                <input type="checkbox" id="perm-net" title="Toggle net.http capability" aria-label="Toggle net.http capability" onchange="updateManifestPreview()">
                 <span class="slider"></span>
               </label>
             </div>
@@ -247,8 +247,8 @@
                 <span class="toggle-title toggle-danger">fs.raw_disk</span>
                 <span class="toggle-desc">Direct filesystem write access (Denied by default)</span>
               </div>
-              <label class="switch">
-                <input type="checkbox" id="perm-fs" onchange="updateManifestPreview()">
+              <label class="switch" for="perm-fs">
+                <input type="checkbox" id="perm-fs" title="Toggle fs.raw_disk capability" aria-label="Toggle fs.raw_disk capability" onchange="updateManifestPreview()">
                 <span class="slider"></span>
               </label>
             </div>

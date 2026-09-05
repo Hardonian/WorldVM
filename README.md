@@ -1,21 +1,51 @@
 # WorldVM
 
-> **Turn any game into a creator platform**  
+> **Turn any game into a creator platform.**  
 > *Run creator-built gameplay safely inside Unity, Unreal, Godot and custom engines.*  
 > *Sandboxed code. Capability permissions. WASM. One runtime across games.*
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![WASM Runtime: Wasmtime 48](https://img.shields.io/badge/wasm-Wasmtime%2048-orange.svg)](https://wasmtime.dev)
+[![Rust: 2021](https://img.shields.io/badge/rust-2021%20edition-orange.svg)](Cargo.toml)
+[![WASM Runtime: Wasmtime 48](https://img.shields.io/badge/wasm-Wasmtime%2048-purple.svg)](https://wasmtime.dev)
 [![Synthetic Validation: 25/25 PASS](https://img.shields.io/badge/synthetic%20tests-25%2F25%20PASS%20(100%25)-brightgreen.svg)](docs/SYNTHETIC_TEST_REPORT.md)
-[![Frame Budget: 27µs p99](https://img.shields.io/badge/p99%20latency-27µs%20%40%2060Hz-success.svg)](docs/SYNTHETIC_TEST_REPORT.md)
+[![Frame Budget: 15.6µs avg / 27µs p99](https://img.shields.io/badge/p99%20latency-27µs%20%40%2060Hz-success.svg)](docs/SYNTHETIC_TEST_REPORT.md)
+[![Engines: Godot | Unity | Unreal | C | Rust](https://img.shields.io/badge/engines-Godot%20%7C%20Unity%20%7C%20Unreal%20%7C%20C%20%7C%20Rust-blueviolet.svg)](#engine-evidence-matrix)
 
 ![WorldVM Hero Banner](assets/hero-banner.jpg)
 
 ---
 
+## Quick Navigation
+
+[🎮 Interactive Web Studio](#-interactive-web-studio--game-simulator) • [💡 Why WorldVM?](#why-worldvm) • [🛡️ Security Architecture](#architecture--security-model) • [⚡ 5-Minute Quickstart](#5-minute-quickstart) • [📊 Synthetic Test Lab](#empirical-validation--evidence-matrix) • [⚔️ Engine Support Matrix](#engine-evidence-matrix) • [⚖️ Feature Comparison](#technology-comparison) • [📚 Documentation](#documentation-index)
+
+---
+
+## 🎮 Interactive Web Studio & Game Simulator
+
+WorldVM includes an interactive, zero-dependency visual inspector and real-time 60Hz physics game simulator. Open [`tools/web-inspector/index.html`](tools/web-inspector/index.html) in any modern browser to experience the creator runtime first-hand:
+
+![WorldVM Interactive Studio & Arena](assets/web-inspector.png)
+
+### Key Studio Capabilities
+
+- **Real-Time 60 FPS Physics Simulation**: Move with `A`/`D` and jump with `Space` in an active cyberpunk arena.
+- **Hot-Load Creator Mods**:
+  - Dynamically load `low-gravity.worldmod` to decrease gravity to $2.40\text{ m/s}^2$ with neon jump particle trails.
+  - Dynamically load `zombie-spawner.worldmod` to spawn autonomous cyber-zombie drones in real time.
+- **Penetration Attack Defense Visualizer**:
+  - Trigger hostile exploits (`malicious-mod.worldmod`) attempting network SSRF and infinite CPU spin loops.
+  - Watch the **WorldVM Sandbox Shield** intercept the attack in real time, drain instruction fuel, record cryptographic receipts, and trip the circuit breaker with zero frame drops!
+- **Visual Capability Studio**: Live toggle permissions (`world.set_gravity`, `world.spawn`, `ui.notify`, `net.http`) with real-time `worldvm.yaml` code generation.
+- **Engine Bridge Hub**: One-click copyable bridge snippets for Godot 4 (GDScript), Unity (C#), Unreal Engine 5 (C++), and Rust.
+
+![WorldVM Hostile Threat Interception](assets/hostile-containment.png)
+
+---
+
 ## Why WorldVM?
 
-Game studios want community-driven longevity: **mods, creator-built game modes, live game rules, custom quests, and challenge runs**. But traditional approaches are fraught with peril:
+Studios want community-driven longevity: **mods, creator-built game modes, live game rules, custom quests, and challenge runs**. But traditional approaches are fraught with peril:
 
 - **Lua / Python scripting** exposes games to global namespace pollution, unpredictable garbage collection pauses, and hard-to-diagnose memory leaks.
 - **Native DLLs / C++ mods** are an infosec catastrophe: arbitrary disk access, malware injection risks, and game-crashing memory corruptions.
@@ -28,8 +58,8 @@ Game studios want community-driven longevity: **mods, creator-built game modes, 
 ## Key Features
 
 - 🛡️ **Zero Ambient Authority**: Modules cannot touch disk, network, or OS APIs. WASI is explicitly denied.
-- ⚡ **Microsecond Frame Budget**: Average tick overhead of **~16 microseconds** at 60 Hz/120 Hz. Zero frame stutter or hitching.
-- ⛽ **Fuel Metering & Epoch Interruption**: Infinite loops (`while(true) {}`) trap cleanly in <1ms without freezing the game engine.
+- ⚡ **Microsecond Frame Budget**: Average tick overhead of **~15.6 microseconds** at 60 Hz/120 Hz. Zero frame stutter or hitching.
+- ⛽ **Fuel Metering & Epoch Interruption**: Infinite loops (`while(true) {}`) trap cleanly in <1ms without freezing the host game loop.
 - 📜 **Fine-Grained Capability Contracts**: Studios define exact permissions (`world.spawn`, `player.grant_xp`, `ui.notify`) with per-tick rate limits in clean YAML.
 - 📦 **`.worldmod` Self-Contained Packages**: Signed ZIP archives with Ed25519 tamper detection, Zip Slip defense, and decompression bomb protection.
 - 🌐 **Multi-Engine C ABI**: Native integration for **Unity (UPM)**, **Godot 4.x (GDExtension)**, **Unreal Engine 5**, and custom C++/Rust engines.
@@ -69,6 +99,54 @@ Game studios want community-driven longevity: **mods, creator-built game modes, 
 
 ---
 
+## Live Reference Game Showcase ("Neon Arena")
+
+Execute the live reference game loop directly from your terminal:
+
+```bash
+cargo run -p reference-game
+```
+
+```text
+╔════════════════════════════════════════════════════════════════════════════════╗
+║  ██     ██  ██████  ██████  ██      ██████  ██    ██ ███    ███                ║
+║  ██     ██ ██    ██ ██   ██ ██      ██   ██ ██    ██ ████  ████                ║
+║  ██  █  ██ ██    ██ ██████  ██      ██   ██ ██    ██ ██ ████ ██                ║
+║  ██ ███ ██ ██    ██ ██   ██ ██      ██   ██  ██  ██  ██  ██  ██                ║
+║   ███ ███   ██████  ██   ██ ███████ ██████    ████   ██      ██                ║
+║               SANDBOXED CREATOR GAMEPLAY RUNTIME (Wasmtime 48)                 ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+▶ [STAGE 1] Baseline Gameplay Physics (Vanilla Engine - No Mods)
+╔════════════════════════════════════════════════════════════════════════════════╗
+║  NEON ARENA [60Hz Physics Loop]  WorldVM Sandbox v1.0.0                        ║
+╠════════════════════════════════════════════════════════════════════════════════╣
+║  Active Mod:       Vanilla [Clean State]                                      ║
+║  World Gravity:    9.81 m/s²                                                  ║
+║  Player Altitude:  1.41 m  (Velocity: 1.08 m/s)                               ║
+║  Spawned NPCs:     0 active entities                                          ║
+║  Altitude Level:   |████                                                      ║
+║  Telemetry:        Frame: 15.6 µs / 16,667 µs (0.10% CPU) | Mem: 4.2 MB       ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+▶ [STAGE 2] Hot-loading Creator Mod: low-gravity.worldmod...
+  ✔ Verified SHA-256 package identity & Ed25519 creator signature
+  ✔ Attached to sandboxed Wasmtime instance with 100,000 fuel quota
+  🔔 Notification: Low Gravity Mode Active: Float high! (Gravity: 2.40 m/s²)
+
+▶ [STAGE 3] Hot-loading Multi-Mod: zombie-spawner.worldmod...
+  ✔ Module 'zombie-spawner' isolated in independent linear memory space
+  🔔 Notification: WARNING: 3 Zombies spawned in the Arena!
+  ║  Entity Radar:     [#1 zombie @ (-10.0,5.0)] [#2 zombie @ (0.0,15.0)]
+
+▶ [STAGE 4] Hostile Penetration Attack Defense: malicious-mod.worldmod
+  ✔ Malicious module loaded into isolated zero-privilege sandbox
+  🛡️ Sandbox Defense Intercept: Capability 'network.http' denied (SSRF Blocked)
+  🛡️ Security Shield: TRAPPED OutOfFuel (50,000 instructions). Engine Loop Preserved!
+```
+
+---
+
 ## 5-Minute Quickstart
 
 ### 1. Install CLI
@@ -98,6 +176,7 @@ impl WorldVmEntrypoint for LowGravityMod {
         if event_name == "round_start" {
             // Set moon gravity (2.40 m/s^2)
             world::set_gravity(2.40).map_err(|e| e.to_string())?;
+
             // Send toast message to HUD
             ui::notify_player("all", "Lunar Gravity Activated! (2.40 m/s^2)").map_err(|e| e.to_string())?;
         }
@@ -116,11 +195,18 @@ worldvm package --out dist/my-gravity-mod.worldmod
 worldvm inspect dist/my-gravity-mod.worldmod
 ```
 
-### 5. Run in Reference Game
+---
 
-```bash
-cargo run -p reference-game
-```
+## Technology Comparison
+
+| Dimension | WorldVM | Lua / Python Scripting | Native C++ DLLs | Unity C# Modding | Raw WASI |
+| --- | --- | --- | --- | --- | --- |
+| **Security Isolation** | **Hardware-grade WASM Sandbox** | None (Global space leak) | None (Full OS Access) | Reflection / AppDomain | OS-Level Virtualization |
+| **Authority Model** | **Zero Ambient Authority** | Ambient | Ambient (Malware Risk) | Ambient | POSIX Ambient Authority |
+| **CPU Denial of Service** | **Deterministic Fuel Trapping** | Freeze / OS Timeout | Game Crash / Segfault | Unhandled Exception Crash | None built-in |
+| **P99 Frame Latency** | **~27 µs (@ 60 Hz)** | Unpredictable (GC Pauses) | < 5 µs (Unsafe) | 50 – 500 µs (GC Pressure) | ~100 µs |
+| **Cross-Engine Support** | **Universal C ABI** | Engine-specific bindings | Platform-specific DLLs | Unity only | Generic CLI |
+| **Tamper Verification** | **Ed25519 Signatures + SHA-256** | None | OS Code Signing | Optional Authenticode | None |
 
 ---
 
