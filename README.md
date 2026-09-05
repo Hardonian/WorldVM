@@ -7,7 +7,9 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Rust: 2021](https://img.shields.io/badge/rust-2021%20edition-orange.svg)](Cargo.toml)
 [![WASM Runtime: Wasmtime 48](https://img.shields.io/badge/wasm-Wasmtime%2048-purple.svg)](https://wasmtime.dev)
-[![Synthetic Validation: 25/25 PASS](https://img.shields.io/badge/synthetic%20tests-25%2F25%20PASS%20(100%25)-brightgreen.svg)](docs/SYNTHETIC_TEST_REPORT.md)
+[![Synthetic Validation: 28/28 PASS](https://img.shields.io/badge/synthetic%20tests-28%2F28%20PASS%20(100%25)-brightgreen.svg)](docs/SYNTHETIC_TEST_REPORT.md)
+[![Sentinel AI: Online Adaptive Radar](https://img.shields.io/badge/sentinel%20ai-adaptive%20tarpit%20shield-blue.svg)](docs/ARCHITECTURE.md#sentinel-ai)
+[![Creator Economy: 70/20/10 Split](https://img.shields.io/badge/creator%20economy-70%2F20%2F10%20split-cyan.svg)](docs/BUSINESS_MODEL.md)
 [![Frame Budget: 15.6µs avg / 27µs p99](https://img.shields.io/badge/p99%20latency-27µs%20%40%2060Hz-success.svg)](docs/SYNTHETIC_TEST_REPORT.md)
 [![Engines: Godot | Unity | Unreal | C | Rust](https://img.shields.io/badge/engines-Godot%20%7C%20Unity%20%7C%20Unreal%20%7C%20C%20%7C%20Rust-blueviolet.svg)](#engine-evidence-matrix)
 
@@ -17,7 +19,7 @@
 
 ## Quick Navigation
 
-[🎮 Interactive Web Studio](#-interactive-web-studio--game-simulator) • [💡 Why WorldVM?](#why-worldvm) • [🛡️ Security Architecture](#architecture--security-model) • [⚡ 5-Minute Quickstart](#5-minute-quickstart) • [📊 Synthetic Test Lab](#empirical-validation--evidence-matrix) • [⚔️ Engine Support Matrix](#engine-evidence-matrix) • [⚖️ Feature Comparison](#technology-comparison) • [📚 Documentation](#documentation-index)
+[🎮 Web Studio](#-interactive-web-studio--game-simulator) • [👁️ Sentinel AI](#️-autonomous-threat-sentinel-ai) • [💎 Creator Economy](#-creator-economy-and-open-core-monetization) • [🛡️ Security Architecture](#architecture--security-model) • [📊 Test Lab Matrix](#empirical-validation--evidence-matrix) • [⚔️ Engine Bridges](#engine-evidence-matrix) • [💼 Business Model](docs/BUSINESS_MODEL.md) • [📚 Docs](#documentation-index)
 
 ---
 
@@ -36,10 +38,38 @@ WorldVM includes an interactive, zero-dependency visual inspector and real-time 
 - **Penetration Attack Defense Visualizer**:
   - Trigger hostile exploits (`malicious-mod.worldmod`) attempting network SSRF and infinite CPU spin loops.
   - Watch the **WorldVM Sandbox Shield** intercept the attack in real time, drain instruction fuel, record cryptographic receipts, and trip the circuit breaker with zero frame drops!
+- **Sentinel AI Threat Radar**: Live online anomaly scalar ($\sigma \in [0.0, 1.0]$), EWMA fuel variance profiling, adaptive tarpit status, and automated zero-day signature generator.
+- **Creator Economy & Marketplace**: Interactive store purchases ($10.00 / $25.00), deterministic 70/20/10 split ticker, and verifiable Ed25519 signed `ComputeReceipt`.
 - **Visual Capability Studio**: Live toggle permissions (`world.set_gravity`, `world.spawn`, `ui.notify`, `net.http`) with real-time `worldvm.yaml` code generation.
 - **Engine Bridge Hub**: One-click copyable bridge snippets for Godot 4 (GDScript), Unity (C#), Unreal Engine 5 (C++), and Rust.
 
-![WorldVM Hostile Threat Interception](assets/hostile-containment.png)
+![WorldVM Sentinel AI Threat Radar](assets/sentinel-ai.png)
+
+![WorldVM Creator Marketplace](assets/creator-marketplace.png)
+
+---
+
+## 👁️ Autonomous Threat Sentinel AI
+
+`crates/worldvm-sentinel` introduces online, self-learning threat defense designed specifically for sub-microsecond game loops:
+
+1. **Online Behavioral Profiling**: Tracks per-mod instruction fuel burn rates, host call frequency velocity, linear memory allocation acceleration, and payload Shannon entropy using EWMA and Welford variance.
+2. **Dynamic Anomaly Scoring**: Computes a continuous composite threat score $\sigma \in [0.0, 1.0]$. Normal operations sit at $\sigma \approx 0.08$; anomalous fuel spikes and stealth bursts elevate score past $\sigma > 0.40$ (`Elevated`) and $\sigma > 0.75$ (`Critical`).
+3. **Adaptive Tarpit Backpressure**: Rather than crashing abruptly, the runtime injects synthetic microsecond execution delays into suspicious modules, neutralizing timing side-channel probes and CPU exhaustion attempts.
+4. **Automated Zero-Day Signature Fingerprinting**: Intercepted exploit vectors are automatically hashed into SHA-256 threat signatures (`SIG-...`) and fed into a studio-wide threat database.
+
+---
+
+## 💎 Creator Economy and Open-Core Monetization
+
+WorldVM provides the economic rails to turn any game into an app store for gameplay, mods, and skins:
+
+- **Deterministic 3-Way Revenue Splits**: Every in-game microtransaction is calculated with integer basis points ($10,000\text{ bps} \equiv 100\%$):
+  - **70% Creator ($7,000\text{ bps}$)**
+  - **20% Game Studio ($2,000\text{ bps}$)**
+  - **10% WorldVM Platform Fee ($1,000\text{ bps}$)**
+- **Cryptographic Compute Receipts (`ComputeReceipt`)**: Hosted servers generate verifiable receipts signing exact execution fuel and memory consumed using Ed25519 keys, enabling auditable Pay-Per-Compute billing.
+- **Commercial Blueprint**: Read [`docs/BUSINESS_MODEL.md`](docs/BUSINESS_MODEL.md) for full details on our open-core commercial licensing, compute hosting margins, and enterprise studio SLAs.
 
 ---
 
@@ -64,6 +94,8 @@ Studios want community-driven longevity: **mods, creator-built game modes, live 
 - 📦 **`.worldmod` Self-Contained Packages**: Signed ZIP archives with Ed25519 tamper detection, Zip Slip defense, and decompression bomb protection.
 - 🌐 **Multi-Engine C ABI**: Native integration for **Unity (UPM)**, **Godot 4.x (GDExtension)**, **Unreal Engine 5**, and custom C++/Rust engines.
 - 🔄 **Deterministic Multiplayer**: Lockstep state verification with cryptographic SHA-256 state hashing and desync divergence detection.
+- 👁️ **Autonomous Sentinel Threat AI**: Self-learning anomaly detection and synthetic backpressure tarpit.
+- 💎 **Integrated Creator Marketplace**: Exact integer 70/20/10 splits and verifiable cryptographic compute receipts.
 
 ---
 
@@ -143,6 +175,11 @@ cargo run -p reference-game
   ✔ Malicious module loaded into isolated zero-privilege sandbox
   🛡️ Sandbox Defense Intercept: Capability 'network.http' denied (SSRF Blocked)
   🛡️ Security Shield: TRAPPED OutOfFuel (50,000 instructions). Engine Loop Preserved!
+
+▶ [STAGE 5] Creator Marketplace In-Game Purchase & Cryptographic Receipt
+  💎 Player purchased 'Lunar Jump Pack' for $10.00
+  ✔ Deterministic Split: Creator (70%): $7.00 | Studio (20%): $2.00 | WorldVM (10%): $1.00
+  📜 Signed Compute Receipt Generated: rec_live_8841 (Ed25519 Verified: true)
 ```
 
 ---
@@ -204,6 +241,8 @@ worldvm inspect dist/my-gravity-mod.worldmod
 | **Security Isolation** | **Hardware-grade WASM Sandbox** | None (Global space leak) | None (Full OS Access) | Reflection / AppDomain | OS-Level Virtualization |
 | **Authority Model** | **Zero Ambient Authority** | Ambient | Ambient (Malware Risk) | Ambient | POSIX Ambient Authority |
 | **CPU Denial of Service** | **Deterministic Fuel Trapping** | Freeze / OS Timeout | Game Crash / Segfault | Unhandled Exception Crash | None built-in |
+| **Threat Intelligence** | **Autonomous Sentinel AI Radar** | None | Antivirus Only | None | None |
+| **Monetization Rails** | **Deterministic 70/20/10 Splits** | Manual Stripe/PayPal | None | Asset Store Only | None |
 | **P99 Frame Latency** | **~27 µs (@ 60 Hz)** | Unpredictable (GC Pauses) | < 5 µs (Unsafe) | 50 – 500 µs (GC Pressure) | ~100 µs |
 | **Cross-Engine Support** | **Universal C ABI** | Engine-specific bindings | Platform-specific DLLs | Unity only | Generic CLI |
 | **Tamper Verification** | **Ed25519 Signatures + SHA-256** | None | OS Code Signing | Optional Authenticode | None |
@@ -221,10 +260,10 @@ WorldVM rejects fake pass rates. All metrics are measured by the **Autonomous Sy
 Profile : ci
 Seed    : 42
 
-RESULTS: 25/25 tests passed (100.0%) in 1105 ms
+RESULTS: 28/28 tests passed (100.0%) in 1,116 ms
 ```
 
-### Red Team Security Matrix (S001 – S015)
+### Red Team Security Matrix (S001 – S018)
 
 | ID | Attack Scenario | Status | Measured Result |
 | --- | --- | --- | --- |
@@ -243,6 +282,9 @@ RESULTS: 25/25 tests passed (100.0%) in 1105 ms
 | **S013** | Circuit Breaker Automatic Trip | **PASS** | Disabled after 3 consecutive unhandled failures |
 | **S014** | Economy Integer Integrity | **PASS** | Exact 64-bit integer arithmetic without float drift |
 | **S015** | Module Unload Cleanliness | **PASS** | Store and memory dropped with zero resource leaks |
+| **S016** | Adaptive Behavioral Anomaly Detection | **PASS** | EWMA fuel variance drift detected; tarpit activated at 500 µs backpressure |
+| **S017** | Dynamic Tarpit & Signature Generation | **PASS** | Critical anomaly generated SHA-256 zero-day signature `SIG-...` |
+| **S018** | Marketplace Splits & Compute Receipts | **PASS** | Verified $25 purchase split ($17.50 / $5.00 / $2.50) + Ed25519 receipt |
 
 ### Frame Budget Benchmarks
 
@@ -273,6 +315,7 @@ We enforce an honest, evidence-based classification for all engine integrations:
 ## Documentation Index
 
 - 📘 [Quickstart Guide](docs/QUICKSTART.md)
+- 💼 [Business Model & Open-Core Monetization](docs/BUSINESS_MODEL.md)
 - 🏗️ [Architecture Specification](docs/ARCHITECTURE.md)
 - 🔒 [Security Guarantees](docs/SECURITY.md)
 - 🎯 [Threat Model](docs/THREAT_MODEL.md)

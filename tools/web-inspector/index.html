@@ -199,7 +199,7 @@
             Continuous online statistical learning (EWMA variance + Shannon entropy) detecting zero-day exploits, timing attacks, and fuel exhaustion loops in &lt;2 µs.
           </p>
 
-          <div class="telemetry-bar" style="margin-top: 1.5rem; grid-template-columns: 1fr 1fr;">
+          <div class="telemetry-bar telemetry-grid-two">
             <div class="telemetry-card">
               <div class="tele-header">
                 <span>Threat Status</span>
@@ -207,7 +207,7 @@
               </div>
               <div class="tele-value text-green" id="sentinelRadarScore">0.08 / 1.00</div>
               <div class="progress-track">
-                <div class="progress-fill bg-fill-green" id="sentinelRadarFill" style="width: 8%;"></div>
+                <div class="progress-fill bg-fill-green progress-init-8" id="sentinelRadarFill"></div>
               </div>
             </div>
 
@@ -218,12 +218,12 @@
               </div>
               <div class="tele-value text-cyan" id="tarpitDelayVal">0 µs Delay</div>
               <div class="progress-track">
-                <div class="progress-fill bg-fill-cyan" id="tarpitFill" style="width: 0%;"></div>
+                <div class="progress-fill bg-fill-cyan progress-init-0" id="tarpitFill"></div>
               </div>
             </div>
           </div>
 
-          <div class="panel-title panel-title-spaced" style="margin-top: 1.5rem;">
+          <div class="panel-title panel-title-spaced mt-1-5">
             <span>🔬 Behavioral Profiling Vectors</span>
           </div>
           <div class="toggle-list">
@@ -258,7 +258,7 @@
           <p class="studio-desc">
             When zero-day exploits are intercepted, Sentinel automatically fingerprints the vector into a global cross-studio threat database.
           </p>
-          <div class="audit-log" id="signatureLog" style="height: 360px; margin-top: 1rem;">
+          <div class="audit-log tall-log" id="signatureLog">
             <div class="log-line">
               <span class="log-time">[SIG-SYS-INIT]</span>
               <span class="log-allow">Global threat signature cache synchronized (0 active local threats)</span>
@@ -279,10 +279,10 @@
             In-game creator commerce powered by capability contracts. Every dollar is split deterministically: <strong>70% Creator</strong>, <strong>20% Studio</strong>, <strong>10% WorldVM</strong>.
           </p>
 
-          <div class="mod-card" style="margin-top: 1rem;">
+          <div class="mod-card mt-1">
             <div class="mod-header">
               <span class="mod-name">Cyber Katana Weapon Pack</span>
-              <span class="text-green" style="font-family: var(--font-mono); font-weight: 700;">$10.00 USD</span>
+              <span class="text-green card-price">$10.00 USD</span>
             </div>
             <p class="mod-desc">
               Custom animated glowing neon katana prefab by <em>@NeonArtisan</em>.
@@ -292,10 +292,10 @@
             </button>
           </div>
 
-          <div class="mod-card" style="margin-top: 1rem;">
+          <div class="mod-card mt-1">
             <div class="mod-header">
               <span class="mod-name">Vampire Lord Boss Wave Mod</span>
-              <span class="text-green" style="font-family: var(--font-mono); font-weight: 700;">$25.00 USD</span>
+              <span class="text-green card-price">$25.00 USD</span>
             </div>
             <p class="mod-desc">
               Custom scripted 3-phase AI arena boss encounter by <em>@DarkCreatives</em>.
@@ -306,10 +306,10 @@
           </div>
 
           <!-- SPLIT BREAKDOWN -->
-          <div class="panel-title panel-title-spaced" style="margin-top: 1.5rem;">
+          <div class="panel-title panel-title-spaced mt-1-5">
             <span>📊 Live Split Breakdown</span>
           </div>
-          <div class="telemetry-bar" style="grid-template-columns: repeat(3, 1fr); margin-top: 0.5rem;">
+          <div class="telemetry-bar telemetry-grid-three">
             <div class="telemetry-card">
               <div class="tele-header"><span>Creator (70%)</span></div>
               <div class="tele-value text-green" id="splitCreatorVal">$0.00</div>
@@ -332,7 +332,7 @@
           <p class="studio-desc">
             Signed execution receipts verifiable by game servers and billing ledgers.
           </p>
-          <div class="code-preview" id="receiptPreview" style="margin-top: 1rem; height: 360px;">// Make a purchase to generate a signed execution receipt...</div>
+          <div class="code-preview tall-preview" id="receiptPreview">// Make a purchase to generate a signed execution receipt...</div>
         </div>
       </div>
     </section>

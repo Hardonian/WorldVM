@@ -684,3 +684,41 @@ footer a {
   font-weight: normal;
   color: #ffeb3b;
 }
+
+/* UTILITY CLASSES FOR STUDIO PANELS */
+.mt-1 { margin-top: 1rem; }
+.mt-1-5 { margin-top: 1.5rem; }
+.mt-0-5 { margin-top: 0.5rem; }
+
+.telemetry-grid-two {
+  margin-top: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+.telemetry-grid-three {
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 0.5rem;
+}
+
+.progress-init-8 {
+  width: 8%;
+}
+
+.progress-init-0 {
+  width: 0%;
+}
+
+.card-price {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.tall-log {
+  height: 360px;
+  margin-top: 1rem;
+}
+
+.tall-preview {
+  margin-top: 1rem;
+  height: 360px;
+}
