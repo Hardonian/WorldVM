@@ -1,0 +1,19 @@
+[package]
+name = "worldvm-c-api"
+version = "1.0.0"
+edition = "2021"
+authors = ["WorldVM Contributors"]
+description = "Stable C ABI for embedding WorldVM in C, C++, Godot, Unity, Unreal, and custom engines"
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+worldvm-core = { path = "../worldvm-core" }
+worldvm-abi = { path = "../worldvm-abi" }
+worldvm-capabilities = { path = "../worldvm-capabilities" }
+worldvm-package = { path = "../worldvm-package" }
+worldvm-runtime = { path = "../worldvm-runtime" }
+serde_json = "1.0"
+parking_lot = "0.12"

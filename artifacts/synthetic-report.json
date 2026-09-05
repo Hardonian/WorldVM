@@ -1,0 +1,223 @@
+{
+  "title": "WorldVM Synthetic Test Lab Validation Report",
+  "version": "1.0.0",
+  "execution_timestamp": "2026-09-05T03:45:00Z",
+  "profile": "ci",
+  "summary": {
+    "total_tests": 25,
+    "passed_tests": 25,
+    "failed_tests": 0,
+    "execution_time_ms": 1105,
+    "pass_rate_percent": 100.0
+  },
+  "red_team_results": [
+    {
+      "scenario_id": "S001",
+      "name": "Infinite Loop Fuel Depletion",
+      "passed": true,
+      "details": "Result: Err(OutOfFuel { fuel_limit: 50000, consumed: 50000 })"
+    },
+    {
+      "scenario_id": "S002",
+      "name": "Linear Memory Growth Containment",
+      "passed": true,
+      "details": "Result: Ok(ExecutionMetrics { invocations: 1, fuel_consumed: 10, execution_time_us: 611, host_calls: 0, memory_high_water_mark_bytes: 0, errors_encountered: 0 })"
+    },
+    {
+      "scenario_id": "S003",
+      "name": "Capability Escalation Defense",
+      "passed": true,
+      "details": "Escalation reached host: false, Denial: Some(\"Capability 'inventory.grant' denied: Permission denied for capability 'inventory.grant': Capability is not exposed by host contract\")"
+    },
+    {
+      "scenario_id": "S004",
+      "name": "Forged Handle Safety",
+      "passed": true,
+      "details": "Forged handle response: Err(HostError { message: \"Player 'forged_player_9999999' not found\" })"
+    },
+    {
+      "scenario_id": "S005",
+      "name": "Zip Slip Path Traversal Defense",
+      "passed": true,
+      "details": "Unpack result: Err(InvalidPackage { reason: \"Malicious path traversal detected in package: ../../../root/shadow\" })"
+    },
+    {
+      "scenario_id": "S006",
+      "name": "Tampered Signature Rejection",
+      "passed": true,
+      "details": "Verify result: Err(InvalidSignature { reason: \"Content hash mismatch: signature hash is original_content_hash_1234567890abcdef1234567890abcdef12345678, calculated hash is 954b2521a646c88cce02ac40be2fb7c68dff10101457d910c61e4e5a16ca2a1b\" })"
+    },
+    {
+      "scenario_id": "S007",
+      "name": "Cross-Module State Isolation",
+      "passed": true,
+      "details": "Mod B read from Mod A's key: ''"
+    },
+    {
+      "scenario_id": "S008",
+      "name": "Cross-Game Policy Isolation",
+      "passed": true,
+      "details": "Contracts isolated by GameId: game_alpha vs game_beta"
+    },
+    {
+      "scenario_id": "S009",
+      "name": "Network SSRF Protection",
+      "passed": true,
+      "details": "SSRF call result: Err(PermissionDenied { capability: \"network.http\", reason: \"SSRF Attempt blocked: internal address forbidden\" })"
+    },
+    {
+      "scenario_id": "S010",
+      "name": "Host Call Storm Quota Enforcement",
+      "passed": true,
+      "details": "Audit host call count: 32 (Target <= 32), Invocation: Ok(ExecutionMetrics { invocations: 1, fuel_consumed: 150010, execution_time_us: 21481, host_calls: 32, memory_high_water_mark_bytes: 0, errors_encountered: 9968 })"
+    },
+    {
+      "scenario_id": "S011",
+      "name": "Event Storm Resilience",
+      "passed": true,
+      "details": "Handled 50 consecutive trapped events without host crash"
+    },
+    {
+      "scenario_id": "S012",
+      "name": "Exclusive Capability ModSet Conflict",
+      "passed": true,
+      "details": "Conflict detected: true"
+    },
+    {
+      "scenario_id": "S013",
+      "name": "Circuit Breaker Automatic Disabling",
+      "passed": true,
+      "details": "Fourth invocation: Err(CircuitBreakerTripped { module_id: \"buggy-trap-mod\" })"
+    },
+    {
+      "scenario_id": "S014",
+      "name": "Economy State Exact Integer Integrity",
+      "passed": true,
+      "details": "XP updated from 50 to expected 150: actual 150"
+    },
+    {
+      "scenario_id": "S015",
+      "name": "Module Unload Lifecycle Cleanliness",
+      "passed": true,
+      "details": "Unloaded: true, Post-unload execution: Err(ModuleNotLoaded { module_id: \"buggy-trap-mod\" })"
+    }
+  ],
+  "multiplayer_determinism_passed": true,
+  "multiplayer_desync_detected": true,
+  "racer_scenario": {
+    "completed_laps": 3,
+    "total_ticks": 300,
+    "winner_id": "p4",
+    "total_xp_awarded": 10000,
+    "checkpoint_events_dispatched": 39,
+    "passed": true,
+    "message": "Neon Racer simulated 300 ticks: 39 checkpoint events, 10000 total XP awarded, winner: p4"
+  },
+  "arena_scenario": {
+    "total_ticks": 500,
+    "zombies_spawned": 10,
+    "player_damage_events": 32,
+    "players_survived": 4,
+    "total_score": 1600,
+    "passed": true,
+    "message": "Arena Zombie Survival: 10 zombies spawned, 32 damage events, 4/4 gladiators survived, total score 1600"
+  },
+  "frame_budget": {
+    "stats_30hz": {
+      "tick_rate_hz": 30,
+      "target_frame_time_us": 33333,
+      "total_ticks": 100,
+      "min_tick_us": 15,
+      "max_tick_us": 94,
+      "avg_tick_us": 16.42,
+      "p99_tick_us": 94,
+      "budget_exceeded_count": 0
+    },
+    "stats_60hz": {
+      "tick_rate_hz": 60,
+      "target_frame_time_us": 16667,
+      "total_ticks": 200,
+      "min_tick_us": 15,
+      "max_tick_us": 92,
+      "avg_tick_us": 15.61,
+      "p99_tick_us": 27,
+      "budget_exceeded_count": 0
+    },
+    "stats_120hz": {
+      "tick_rate_hz": 120,
+      "target_frame_time_us": 8333,
+      "total_ticks": 300,
+      "min_tick_us": 15,
+      "max_tick_us": 90,
+      "avg_tick_us": 15.446666666666667,
+      "p99_tick_us": 24,
+      "budget_exceeded_count": 0
+    },
+    "passed": true,
+    "message": "Frame Budget: 30Hz avg=16.4us p99=94us | 60Hz avg=15.6us p99=27us | 120Hz avg=15.4us p99=24us (budget: 2000us)"
+  },
+  "chaos_results": [
+    {
+      "name": "Rapid Module Load/Unload Churn",
+      "passed": true,
+      "details": "Completed 20/20 load-eval-unload cycles without leak or panic"
+    },
+    {
+      "name": "Concurrent Module Event Storm",
+      "passed": true,
+      "details": "Dispatched 200 events across 4 concurrent modules without deadlock"
+    },
+    {
+      "name": "Corrupted Payload Fuzzing",
+      "passed": true,
+      "details": "Processed 50/50 malformed/fuzzed payloads with zero host panics"
+    },
+    {
+      "name": "Fuel Starvation Recovery",
+      "passed": true,
+      "details": "Hostile loop trapped: true, subsequent legitimate call succeeded: true"
+    },
+    {
+      "name": "Interleaved Hostile & Legitimate Execution",
+      "passed": true,
+      "details": "Buggy trapped (true), Legitimate 1 ok, Escalation blocked, Legitimate 2 ok"
+    }
+  ],
+  "engine_evidence": [
+    {
+      "engine": "Native Rust Engine",
+      "classification": "SIMULATION_VERIFIED",
+      "test_target": "reference-game (Neon Arena)",
+      "status": "PASS",
+      "notes": "End-to-end multi-mod integration verified with low-gravity, zombie-spawner, and malicious containment."
+    },
+    {
+      "engine": "C ABI / Host Runtime",
+      "classification": "BUILD_VERIFIED",
+      "test_target": "crates/worldvm-c-api/examples/main.c",
+      "status": "PASS",
+      "notes": "DLL compilation, header linking, and C host instantiation verified with clang/lld."
+    },
+    {
+      "engine": "Godot 4.x GDExtension",
+      "classification": "BUILD_VERIFIED",
+      "test_target": "sdk/godot/bin/worldvm.gdextension",
+      "status": "PASS",
+      "notes": "C ABI dynamic library wrapper generated and validated against Godot GDExtension ABI spec."
+    },
+    {
+      "engine": "Unity Engine (UPM)",
+      "classification": "UNIT_VERIFIED",
+      "test_target": "sdk/unity/Runtime/WorldVM.cs",
+      "status": "PASS",
+      "notes": "C# P/Invoke bindings, struct layouts, and delegate marshaling validated."
+    },
+    {
+      "engine": "Unreal Engine 5",
+      "classification": "INTEGRATION_READY_UNVERIFIED",
+      "test_target": "sdk/unreal/WorldVM.uplugin",
+      "status": "READY",
+      "notes": "C++ UWorldSubsystem header structure ready; waiting on automated headless UE5 CI cluster runner."
+    }
+  ]
+}

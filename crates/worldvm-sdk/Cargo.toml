@@ -1,0 +1,13 @@
+[package]
+name = "worldvm-sdk"
+version = "1.0.0"
+edition = "2021"
+authors = ["WorldVM Contributors"]
+description = "Creator Rust SDK for authoring safe, sandboxed WorldVM mods and game modes"
+license = "Apache-2.0"
+
+[dependencies]
+worldvm-core = { path = "../worldvm-core" }
+worldvm-abi = { path = "../worldvm-abi" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

@@ -1,0 +1,21 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0.0",
+  "FriendlyName": "WorldVM Runtime",
+  "Description": "Sandboxed WebAssembly gameplay execution layer and capability permission engine for Unreal Engine.",
+  "Category": "Gameplay",
+  "CreatedBy": "WorldVM Contributors",
+  "CreatedByURL": "https://worldvm.dev",
+  "DocsURL": "https://worldvm.dev/docs/unreal",
+  "CanContainContent": false,
+  "IsBetaVersion": true,
+  "Installed": false,
+  "Modules": [
+    {
+      "Name": "WorldVM",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ]
+}

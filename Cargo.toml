@@ -1,0 +1,35 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/worldvm-core",
+    "crates/worldvm-abi",
+    "crates/worldvm-capabilities",
+    "crates/worldvm-signing",
+    "crates/worldvm-package",
+    "crates/worldvm-runtime",
+    "crates/worldvm-sdk",
+    "crates/worldvm-simulator",
+    "crates/worldvm-c-api",
+    "crates/worldvm-server",
+    "crates/worldvm-cli",
+    "reference-game",
+    "tests/synthetic",
+]
+exclude = [
+    "examples/low-gravity",
+    "examples/zombie-spawner",
+    "examples/welcome-message",
+    "examples/malicious-mod",
+]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2021"
+authors = ["WorldVM Contributors"]
+license = "Apache-2.0"
+repository = "https://github.com/Hardonian/WorldVM"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1

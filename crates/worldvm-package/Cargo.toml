@@ -1,0 +1,17 @@
+[package]
+name = "worldvm-package"
+version = "1.0.0"
+edition = "2021"
+authors = ["WorldVM Contributors"]
+description = "Deterministic .worldmod container format, zip bomb defense, and manifest validation for WorldVM"
+license = "Apache-2.0"
+
+[dependencies]
+worldvm-core = { path = "../worldvm-core" }
+worldvm-signing = { path = "../worldvm-signing" }
+zip = { version = "2.2", default-features = false, features = ["deflate"] }
+toml = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+tracing = "0.1"

@@ -1,0 +1,22 @@
+name = "zombie-spawner"
+version = "1.0.0"
+publisher = "creator_undead"
+worldvm = "1"
+abi = "1.0"
+description = "Spawns hostile zombie NPC waves across the arena when the round starts"
+
+[resources]
+memory_mb = 16
+fuel = 500000
+max_execution_ms = 5
+
+[permissions]
+request = [
+  "world.spawn",
+  "ui.notify"
+]
+
+[events]
+subscribe = [
+  "round_start"
+]

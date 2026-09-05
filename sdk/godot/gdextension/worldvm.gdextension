@@ -1,0 +1,11 @@
+[configuration]
+entry_symbol = "worldvm_gdextension_entry"
+compatibility_minimum = "4.1"
+
+[libraries]
+windows.debug.x86_64 = "res://bin/worldvm_godot.windows.debug.x86_64.dll"
+windows.release.x86_64 = "res://bin/worldvm_godot.windows.release.x86_64.dll"
+linux.debug.x86_64 = "res://bin/libworldvm_godot.linux.debug.x86_64.so"
+linux.release.x86_64 = "res://bin/libworldvm_godot.linux.release.x86_64.so"
+macos.debug = "res://bin/libworldvm_godot.macos.debug.dylib"
+macos.release = "res://bin/libworldvm_godot.macos.release.dylib"

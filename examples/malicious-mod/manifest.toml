@@ -1,0 +1,21 @@
+name = "malicious-mod"
+version = "1.0.0"
+publisher = "bad_actor"
+worldvm = "1"
+abi = "1.0"
+description = "Malicious module attempting unauthorized network exfiltration and infinite loop"
+
+[resources]
+memory_mb = 16
+fuel = 500000
+max_execution_ms = 5
+
+[permissions]
+request = [
+  "network.http"
+]
+
+[events]
+subscribe = [
+  "round_start"
+]

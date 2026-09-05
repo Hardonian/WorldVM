@@ -1,0 +1,19 @@
+{
+  "name": "dev.worldvm.unity",
+  "version": "1.0.0",
+  "displayName": "WorldVM Runtime",
+  "description": "Sandboxed WebAssembly gameplay runtime and creator execution layer for Unity.",
+  "unity": "2022.3",
+  "author": {
+    "name": "WorldVM Contributors",
+    "url": "https://worldvm.dev"
+  },
+  "keywords": [
+    "wasm",
+    "webassembly",
+    "ugc",
+    "modding",
+    "sandbox",
+    "scripting"
+  ]
+}

@@ -1,0 +1,21 @@
+name = "welcome-message"
+version = "1.0.0"
+publisher = "creator_greeter"
+worldvm = "1"
+abi = "1.0"
+description = "Greets joining players with an on-screen toast"
+
+[resources]
+memory_mb = 8
+fuel = 200000
+max_execution_ms = 2
+
+[permissions]
+request = [
+  "ui.notify"
+]
+
+[events]
+subscribe = [
+  "player_join"
+]

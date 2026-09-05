@@ -1,0 +1,16 @@
+[package]
+name = "worldvm-capabilities"
+version = "1.0.0"
+edition = "2021"
+authors = ["WorldVM Contributors"]
+description = "WorldCapabilityContract parser, permission matrix, rate limiting, and security policy enforcement"
+license = "Apache-2.0"
+
+[dependencies]
+worldvm-core = { path = "../worldvm-core" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+toml = "0.8"
+thiserror = "2.0"
+tracing = "0.1"
