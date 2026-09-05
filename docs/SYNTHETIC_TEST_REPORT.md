@@ -15,7 +15,7 @@
 ## Red Team Security Scenarios (S001 – S015)
 
 | ID | Attack Scenario | Status | Details |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | S001 | Infinite Loop Fuel Depletion | PASS | Result: Err(OutOfFuel { fuel_limit: 50000, consumed: 50000 }) |
 | S002 | Linear Memory Growth Containment | PASS | Result: Ok(ExecutionMetrics { invocations: 1, fuel_consumed: 10, execution_time_us: 611, host_calls: 0, memory_high_water_mark_bytes: 0, errors_encountered: 0 }) |
 | S003 | Capability Escalation Defense | PASS | Escalation reached host: false, Denial: Some("Capability 'inventory.grant' denied: Permission denied for capability 'inventory.grant': Capability is not exposed by host contract") |
@@ -45,7 +45,7 @@
 ## Frame Budget Benchmarks
 
 | Target Cadence | Target Frame Time | Avg Execution Time | P99 Latency | Budget Exceeded |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 30 Hz | 33333 us | 16.4 us | 94 us | 0 |
 | 60 Hz | 16667 us | 15.6 us | 27 us | 0 |
 | 120 Hz | 8333 us | 15.4 us | 24 us | 0 |
@@ -53,7 +53,7 @@
 ## Chaos & Fault Injection
 
 | Scenario | Status | Details |
-|---|---|---|
+| --- | --- | --- |
 | Rapid Module Load/Unload Churn | PASS | Completed 20/20 load-eval-unload cycles without leak or panic |
 | Concurrent Module Event Storm | PASS | Dispatched 200 events across 4 concurrent modules without deadlock |
 | Corrupted Payload Fuzzing | PASS | Processed 50/50 malformed/fuzzed payloads with zero host panics |
@@ -63,10 +63,9 @@
 ## Engine Evidence Classification
 
 | Engine | Evidence Class | Test Target | Status | Notes |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | Native Rust Engine | SIMULATION_VERIFIED | reference-game (Neon Arena) | PASS | End-to-end multi-mod integration verified with low-gravity, zombie-spawner, and malicious containment. |
 | C ABI / Host Runtime | BUILD_VERIFIED | crates/worldvm-c-api/examples/main.c | PASS | DLL compilation, header linking, and C host instantiation verified with clang/lld. |
 | Godot 4.x GDExtension | BUILD_VERIFIED | sdk/godot/bin/worldvm.gdextension | PASS | C ABI dynamic library wrapper generated and validated against Godot GDExtension ABI spec. |
 | Unity Engine (UPM) | UNIT_VERIFIED | sdk/unity/Runtime/WorldVM.cs | PASS | C# P/Invoke bindings, struct layouts, and delegate marshaling validated. |
 | Unreal Engine 5 | INTEGRATION_READY_UNVERIFIED | sdk/unreal/WorldVM.uplugin | READY | C++ UWorldSubsystem header structure ready; waiting on automated headless UE5 CI cluster runner. |
-

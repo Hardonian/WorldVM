@@ -1,30 +1,27 @@
 # WorldVM
 
-<div align="center">
+> **Turn any game into a creator platform**  
+> *Run creator-built gameplay safely inside Unity, Unreal, Godot and custom engines.*  
+> *Sandboxed code. Capability permissions. WASM. One runtime across games.*
 
-# Turn any game into a creator platform.
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![WASM Runtime: Wasmtime 48](https://img.shields.io/badge/wasm-Wasmtime%2048-orange.svg)](https://wasmtime.dev)
+[![Synthetic Validation: 25/25 PASS](https://img.shields.io/badge/synthetic%20tests-25%2F25%20PASS%20(100%25)-brightgreen.svg)](docs/SYNTHETIC_TEST_REPORT.md)
+[![Frame Budget: 27µs p99](https://img.shields.io/badge/p99%20latency-27µs%20%40%2060Hz-success.svg)](docs/SYNTHETIC_TEST_REPORT.md)
 
-**Run creator-built gameplay safely inside Unity, Unreal, Godot and custom engines.**  
-*Sandboxed code. Capability permissions. WASM. One runtime across games.*
-
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![WASM Runtime](https://img.shields.io/badge/wasm-Wasmtime%2048-orange.svg)](https://wasmtime.dev)
-[![Synthetic Validation](https://img.shields.io/badge/synthetic%20tests-25%2F25%20PASS%20(100%25)-brightgreen.svg)](docs/SYNTHETIC_TEST_REPORT.md)
-[![Frame Budget](https://img.shields.io/badge/p99%20latency-27µs%20%40%2060Hz-success.svg)](docs/SYNTHETIC_TEST_REPORT.md)
-
-</div>
+![WorldVM Hero Banner](assets/hero-banner.jpg)
 
 ---
 
 ## Why WorldVM?
 
-Studios want community-driven longevity: **mods, creator-built game modes, live game rules, custom quests, and challenge runs**. But traditional approaches are dangerous or fragmented:
+Game studios want community-driven longevity: **mods, creator-built game modes, live game rules, custom quests, and challenge runs**. But traditional approaches are fraught with peril:
 
-- **Lua / Python scripting** exposes games to global namespace pollution, non-deterministic performance spikes, and memory leaks.
-- **Native DLLs / C++ mods** are an infosec catastrophe: arbitrary disk access, malware injection, and game-crashing segfaults.
-- **Engine-specific modding systems** force developers to maintain separate tooling for Unity, Unreal, and custom engines.
+- **Lua / Python scripting** exposes games to global namespace pollution, unpredictable garbage collection pauses, and hard-to-diagnose memory leaks.
+- **Native DLLs / C++ mods** are an infosec catastrophe: arbitrary disk access, malware injection risks, and game-crashing memory corruptions.
+- **Engine-specific modding systems** force studios to maintain fragmented tooling for Unity, Unreal, and custom internal engines.
 
-**WorldVM solves this with a universal WebAssembly sandbox and capability-based security model.** Untrusted creator code runs in a microsecond-fast, deterministic WASM sandbox with zero ambient authority.
+**WorldVM provides a universal WebAssembly sandbox and capability-based security model.** Untrusted creator code runs in a microsecond-fast, deterministic WASM sandbox with zero ambient authority.
 
 ---
 
@@ -40,7 +37,9 @@ Studios want community-driven longevity: **mods, creator-built game modes, live 
 
 ---
 
-## Architecture
+## Architecture & Security Model
+
+![WASM Game Sandbox Security Architecture](assets/security-architecture.jpg)
 
 ```text
 +-------------------------------------------------------------------------+
@@ -73,18 +72,21 @@ Studios want community-driven longevity: **mods, creator-built game modes, live 
 ## 5-Minute Quickstart
 
 ### 1. Install CLI
+
 ```bash
 cargo install --path crates/worldvm-cli
 worldvm doctor
 ```
 
 ### 2. Create a Mod
+
 ```bash
 worldvm init my-gravity-mod
 cd my-gravity-mod
 ```
 
 ### 3. Write Gameplay Logic (`src/lib.rs`)
+
 ```rust
 use worldvm_sdk::prelude::*;
 
@@ -107,6 +109,7 @@ export_entrypoint!(LowGravityMod);
 ```
 
 ### 4. Build, Package & Verify
+
 ```bash
 worldvm build
 worldvm package --out dist/my-gravity-mod.worldmod
@@ -114,6 +117,7 @@ worldvm inspect dist/my-gravity-mod.worldmod
 ```
 
 ### 5. Run in Reference Game
+
 ```bash
 cargo run -p reference-game
 ```
@@ -137,7 +141,7 @@ RESULTS: 25/25 tests passed (100.0%) in 1105 ms
 ### Red Team Security Matrix (S001 – S015)
 
 | ID | Attack Scenario | Status | Measured Result |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **S001** | Infinite Loop Fuel Depletion | **PASS** | `OutOfFuel { fuel_limit: 50000, consumed: 50000 }` (Trapped cleanly) |
 | **S002** | Linear Memory Bomb Containment | **PASS** | Bounded at 16MB page allocation limit |
 | **S003** | Capability Escalation Defense | **PASS** | Blocked (`Permission denied: Capability not exposed`) |
@@ -157,7 +161,7 @@ RESULTS: 25/25 tests passed (100.0%) in 1105 ms
 ### Frame Budget Benchmarks
 
 | Target Cadence | Target Frame Time | Measured Avg Latency | P99 Latency | Budget Spikes |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **30 Hz** | 33,333 µs | **16.4 µs** | **94 µs** | 0 |
 | **60 Hz** | 16,667 µs | **15.6 µs** | **27 µs** | 0 |
 | **120 Hz** | 8,333 µs | **15.4 µs** | **24 µs** | 0 |
@@ -169,7 +173,7 @@ RESULTS: 25/25 tests passed (100.0%) in 1105 ms
 We enforce an honest, evidence-based classification for all engine integrations:
 
 | Engine / Target | Evidence Class | Validation Target | Status | Notes |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **Native Rust Engine** | `SIMULATION_VERIFIED` | `reference-game` (Neon Arena) | **PASS** | Multi-mod physics, dynamic gravity, zombie spawns, hostile containment. |
 | **C ABI Host Library** | `BUILD_VERIFIED` | `crates/worldvm-c-api/examples/main.c` | **PASS** | DLL compiled and executed with `clang`/`lld`. |
 | **Godot 4.x GDExtension** | `BUILD_VERIFIED` | `sdk/godot/bin/worldvm.gdextension` | **PASS** | GDExtension configuration and GDScript wrapper verified. |

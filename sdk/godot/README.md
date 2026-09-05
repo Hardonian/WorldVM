@@ -3,6 +3,7 @@
 Embed the WorldVM WebAssembly creator sandbox inside Godot 4.x games using GDExtension and GDScript.
 
 ## Features
+
 - Run sandboxed untrusted mods with strict instruction fuel budgets.
 - Expose engine capabilities directly from GDScript via `WorldVM.expose()`.
 - Dispatch gameplay events to creator mods (`player_join`, `round_start`, etc.).

@@ -3,7 +3,9 @@
 Sandboxed WebAssembly gameplay execution runtime for Unity games.
 
 ## Installation
+
 Add the package to your `Packages/manifest.json`:
+
 ```json
 {
   "dependencies": {
@@ -13,6 +15,7 @@ Add the package to your `Packages/manifest.json`:
 ```
 
 ## Usage
+
 ```csharp
 using UnityEngine;
 using WorldVM;
