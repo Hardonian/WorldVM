@@ -7,639 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-dark: #07090e;
-      --bg-card: rgba(16, 21, 33, 0.75);
-      --border-card: rgba(0, 240, 255, 0.18);
-      --border-glow: rgba(0, 240, 255, 0.4);
-      --neon-cyan: #00f0ff;
-      --neon-magenta: #ff007f;
-      --neon-green: #00ff88;
-      --neon-amber: #ffaa00;
-      --neon-red: #ff3344;
-      --text-main: #f0f4f8;
-      --text-muted: #8b9bb4;
-      --font-mono: 'JetBrains Mono', monospace;
-      --font-title: 'Outfit', sans-serif;
-      --font-body: 'Inter', sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      background-image: 
-        radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(255, 0, 127, 0.08) 0%, transparent 40%),
-        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
-      color: var(--text-main);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* HEADER / NAVBAR */
-    header {
-      backdrop-filter: blur(12px);
-      background: rgba(7, 9, 14, 0.85);
-      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-
-    .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-title);
-      font-weight: 900;
-      font-size: 20px;
-      color: #000;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
-    }
-
-    .brand-title {
-      font-family: var(--font-title);
-      font-weight: 800;
-      font-size: 1.4rem;
-      letter-spacing: -0.5px;
-      background: linear-gradient(to right, #fff, var(--neon-cyan));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .brand-badge {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      padding: 2px 8px;
-      border-radius: 12px;
-      background: rgba(0, 255, 136, 0.15);
-      color: var(--neon-green);
-      border: 1px solid rgba(0, 255, 136, 0.4);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .header-links {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .nav-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-family: var(--font-title);
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      padding: 6px 12px;
-      border-radius: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .nav-btn:hover, .nav-btn.active {
-      color: var(--neon-cyan);
-      background: rgba(0, 240, 255, 0.1);
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
-    }
-
-    /* MAIN CONTAINER */
-    main {
-      max-width: 1400px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    /* HERO BANNER SECTION */
-    .hero-panel {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 16px;
-      padding: 2rem;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 2rem;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-panel::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(0, 240, 255, 0.05) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .hero-text h1 {
-      font-family: var(--font-title);
-      font-size: 2.5rem;
-      font-weight: 900;
-      line-height: 1.15;
-      margin-bottom: 0.75rem;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-magenta) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-text p {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .stat-pill {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 0.75rem 1.25rem;
-      border-radius: 10px;
-    }
-
-    .stat-val {
-      font-family: var(--font-mono);
-      font-weight: 700;
-      font-size: 1.4rem;
-      color: var(--neon-cyan);
-    }
-
-    .stat-lbl {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 2px;
-    }
-
-    /* TELEMETRY BAR */
-    .telemetry-bar {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-    }
-
-    .telemetry-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      backdrop-filter: blur(10px);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      transition: border-color 0.2s;
-    }
-
-    .telemetry-card:hover {
-      border-color: var(--neon-cyan);
-    }
-
-    .tele-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      font-family: var(--font-title);
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .tele-value {
-      font-family: var(--font-mono);
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    .progress-track {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 3px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: 3px;
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* ARENA SIMULATOR VIEW */
-    .view-container {
-      display: none;
-    }
-
-    .view-container.active {
-      display: block;
-    }
-
-    .arena-grid {
-      display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 1.5rem;
-    }
-
-    .canvas-container {
-      background: #030508;
-      border: 1px solid var(--border-card);
-      border-radius: 16px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-      aspect-ratio: 16 / 9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .canvas-overlay {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      background: rgba(7, 9, 14, 0.85);
-      border: 1px solid rgba(0, 240, 255, 0.3);
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      pointer-events: none;
-      backdrop-filter: blur(8px);
-    }
-
-    .shield-alert {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      background: rgba(255, 0, 85, 0.95);
-      border: 2px solid #fff;
-      color: #fff;
-      padding: 1.5rem 2.5rem;
-      border-radius: 12px;
-      font-family: var(--font-title);
-      font-weight: 800;
-      font-size: 1.3rem;
-      box-shadow: 0 0 40px rgba(255, 0, 85, 0.8);
-      display: none;
-      text-align: center;
-      z-index: 50;
-      animation: pulseAlert 0.5s infinite alternate;
-    }
-
-    @keyframes pulseAlert {
-      from { transform: translate(-50%, -50%) scale(0.95); }
-      to { transform: translate(-50%, -50%) scale(1.05); }
-    }
-
-    /* CONTROL PANEL */
-    .controls-panel {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 16px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      backdrop-filter: blur(12px);
-    }
-
-    .panel-title {
-      font-family: var(--font-title);
-      font-weight: 700;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--neon-cyan);
-    }
-
-    .mod-card {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      transition: all 0.2s;
-    }
-
-    .mod-card:hover {
-      border-color: rgba(0, 240, 255, 0.4);
-    }
-
-    .mod-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .mod-name {
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-
-    .mod-status {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    .mod-status.installed {
-      background: rgba(0, 255, 136, 0.2);
-      color: var(--neon-green);
-      border: 1px solid var(--neon-green);
-    }
-
-    .mod-status.uninstalled {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-muted);
-    }
-
-    .mod-status.trapped {
-      background: rgba(255, 0, 85, 0.2);
-      color: var(--neon-red);
-      border: 1px solid var(--neon-red);
-    }
-
-    .btn-action {
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(0, 240, 255, 0.05));
-      border: 1px solid var(--neon-cyan);
-      color: var(--neon-cyan);
-      font-family: var(--font-title);
-      font-weight: 600;
-      font-size: 0.85rem;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-      width: 100%;
-    }
-
-    .btn-action:hover {
-      background: var(--neon-cyan);
-      color: #000;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, rgba(255, 51, 68, 0.2), rgba(255, 51, 68, 0.05));
-      border: 1px solid var(--neon-red);
-      color: var(--neon-red);
-    }
-
-    .btn-danger:hover {
-      background: var(--neon-red);
-      color: #fff;
-      box-shadow: 0 0 15px rgba(255, 51, 68, 0.5);
-    }
-
-    /* FIREWALL AUDIT LOG */
-    .audit-log {
-      background: #020408;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 0.75rem;
-      height: 160px;
-      overflow-y: auto;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .log-line {
-      display: flex;
-      gap: 8px;
-    }
-
-    .log-time {
-      color: var(--text-muted);
-    }
-
-    .log-allow {
-      color: var(--neon-green);
-    }
-
-    .log-deny {
-      color: var(--neon-red);
-      font-weight: 700;
-    }
-
-    .log-warn {
-      color: var(--neon-amber);
-    }
-
-    /* CAPABILITY STUDIO VIEW */
-    .studio-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-
-    .studio-panel {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 16px;
-      padding: 1.5rem;
-      backdrop-filter: blur(12px);
-    }
-
-    .toggle-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .toggle-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem 1rem;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-    }
-
-    .toggle-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .toggle-title {
-      font-family: var(--font-mono);
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .toggle-desc {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    /* SWITCH */
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 44px;
-      height: 24px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: .3s;
-      border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .3s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: var(--neon-cyan);
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(20px);
-      background-color: #000;
-    }
-
-    /* CODE EDITOR AREA */
-    .code-preview {
-      background: #020408;
-      border: 1px solid rgba(0, 240, 255, 0.2);
-      border-radius: 12px;
-      padding: 1.25rem;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: #b0c4de;
-      line-height: 1.5;
-      overflow-x: auto;
-      height: 420px;
-    }
-
-    /* ENGINE TABS */
-    .engine-nav {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .engine-tab {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-muted);
-      padding: 6px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: var(--font-title);
-      font-weight: 600;
-      font-size: 0.85rem;
-    }
-
-    .engine-tab.active {
-      background: rgba(0, 240, 255, 0.15);
-      color: var(--neon-cyan);
-      border-color: var(--neon-cyan);
-    }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 2rem;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      margin-top: 3rem;
-    }
-
-    footer a {
-      color: var(--neon-cyan);
-      text-decoration: none;
-    }
-
-    /* SOUND FX ENABLED BADGE */
-    .sound-badge {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 4px;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -687,15 +55,15 @@
       </div>
 
       <!-- TELEMETRY HUD -->
-      <div class="telemetry-bar" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+      <div class="telemetry-bar telemetry-grid-hero">
         <div class="telemetry-card">
           <div class="tele-header">
             <span>Frame Budget (60Hz)</span>
-            <span style="color: var(--neon-green);" id="fpsVal">60.0 FPS</span>
+            <span class="text-green" id="fpsVal">60.0 FPS</span>
           </div>
-          <div class="tele-value" style="color: var(--neon-green);" id="frameTimeVal">15.6 µs</div>
+          <div class="tele-value text-green" id="frameTimeVal">15.6 µs</div>
           <div class="progress-track">
-            <div class="progress-fill" id="frameBudgetFill" style="width: 0.1%; background: var(--neon-green);"></div>
+            <div class="progress-fill bg-fill-green" id="frameBudgetFill"></div>
           </div>
         </div>
 
@@ -704,9 +72,9 @@
             <span>Fuel Consumption</span>
             <span id="fuelPercent">10%</span>
           </div>
-          <div class="tele-value" style="color: var(--neon-cyan);" id="fuelVal">50,000</div>
+          <div class="tele-value text-cyan" id="fuelVal">50,000</div>
           <div class="progress-track">
-            <div class="progress-fill" id="fuelFill" style="width: 10%; background: var(--neon-cyan);"></div>
+            <div class="progress-fill bg-fill-cyan" id="fuelFill"></div>
           </div>
         </div>
 
@@ -715,20 +83,20 @@
             <span>Arena Gravity</span>
             <span id="gravModState">VANILLA</span>
           </div>
-          <div class="tele-value" style="color: var(--neon-amber);" id="gravityVal">9.81 m/s²</div>
+          <div class="tele-value text-amber" id="gravityVal">9.81 m/s²</div>
           <div class="progress-track">
-            <div class="progress-fill" id="gravFill" style="width: 100%; background: var(--neon-amber);"></div>
+            <div class="progress-fill bg-fill-amber" id="gravFill"></div>
           </div>
         </div>
 
         <div class="telemetry-card">
           <div class="tele-header">
             <span>Circuit Breaker</span>
-            <span style="color: var(--neon-green);" id="breakerState">ARMED</span>
+            <span class="text-green" id="breakerState">ARMED</span>
           </div>
-          <div class="tele-value" style="color: var(--neon-green);" id="strikesVal">0 / 3 Strikes</div>
+          <div class="tele-value text-green" id="strikesVal">0 / 3 Strikes</div>
           <div class="progress-track">
-            <div class="progress-fill" id="strikesFill" style="width: 0%; background: var(--neon-green);"></div>
+            <div class="progress-fill bg-fill-green" id="strikesFill"></div>
           </div>
         </div>
       </div>
@@ -741,12 +109,12 @@
         <div class="canvas-container">
           <canvas id="simCanvas" width="960" height="540"></canvas>
           <div class="canvas-overlay">
-            <div>SIMULATOR: <span style="color: var(--neon-green);">ACTIVE (60 Ticks/sec)</span></div>
+            <div>SIMULATOR: <span class="text-green">ACTIVE (60 Ticks/sec)</span></div>
             <div>CONTROLS: <kbd>SPACE</kbd> = Jump | <kbd>A</kbd>/<kbd>D</kbd> = Move</div>
           </div>
           <div class="shield-alert" id="shieldAlert">
             ⚠️ HOSTILE THREAT CONTAINED<br>
-            <span style="font-size: 0.9rem; font-weight: normal; color: #ffeb3b;" id="alertReason">
+            <span class="alert-subtext" id="alertReason">
               Trapped OutOfFuel (50,000 instructions)
             </span>
           </div>
@@ -764,7 +132,7 @@
               <span class="mod-name">low-gravity.worldmod</span>
               <span class="mod-status uninstalled" id="badge-low-grav">UNLOADED</span>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted);">
+            <p class="mod-desc">
               Shifts physics gravity to 2.40 m/s² via <code>world.set_gravity</code>.
             </p>
             <button class="btn-action" id="btn-toggle-grav" onclick="toggleLowGravity()">
@@ -778,7 +146,7 @@
               <span class="mod-name">zombie-spawner.worldmod</span>
               <span class="mod-status uninstalled" id="badge-zombies">UNLOADED</span>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted);">
+            <p class="mod-desc">
               Spawns autonomous AI drone waves via <code>world.spawn</code>.
             </p>
             <button class="btn-action" id="btn-toggle-zombies" onclick="toggleZombieSpawner()">
@@ -787,12 +155,12 @@
           </div>
 
           <!-- MOD 3: HOSTILE MOD -->
-          <div class="mod-card" style="border-color: rgba(255, 51, 68, 0.3);">
+          <div class="mod-card mod-card-hostile">
             <div class="mod-header">
-              <span class="mod-name" style="color: var(--neon-red);">malicious-mod.worldmod</span>
+              <span class="mod-name mod-name-danger">malicious-mod.worldmod</span>
               <span class="mod-status uninstalled" id="badge-malicious">IDLE</span>
             </div>
-            <p style="font-size: 0.75rem; color: var(--text-muted);">
+            <p class="mod-desc">
               Attempts SSRF exfiltration + infinite CPU loop to freeze the host game.
             </p>
             <button class="btn-action btn-danger" onclick="triggerHostileExploit()">
@@ -801,7 +169,7 @@
           </div>
 
           <!-- AUDIT LOG -->
-          <div class="panel-title" style="margin-top: 0.5rem;">
+          <div class="panel-title panel-title-spaced">
             <span>🛡️ Capability Firewall Log</span>
           </div>
           <div class="audit-log" id="auditLog">
@@ -825,7 +193,7 @@
           <div class="panel-title">
             <span>⚙️ Declarative Permission Studio</span>
           </div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+          <p class="studio-desc">
             Configure zero-ambient-authority contracts. Untrusted code can only call explicit declared endpoints.
           </p>
 
@@ -865,7 +233,7 @@
 
             <div class="toggle-item">
               <div class="toggle-info">
-                <span class="toggle-title" style="color: var(--neon-red);">net.http (SSRF Target)</span>
+                <span class="toggle-title toggle-danger">net.http (SSRF Target)</span>
                 <span class="toggle-desc">Arbitrary network sockets (Hostile vector)</span>
               </div>
               <label class="switch">
@@ -876,7 +244,7 @@
 
             <div class="toggle-item">
               <div class="toggle-info">
-                <span class="toggle-title" style="color: var(--neon-red);">fs.raw_disk</span>
+                <span class="toggle-title toggle-danger">fs.raw_disk</span>
                 <span class="toggle-desc">Direct filesystem write access (Denied by default)</span>
               </div>
               <label class="switch">
@@ -918,508 +286,6 @@
     </p>
   </footer>
 
-  <script>
-    /* ========================================================================
-     * WEB AUDIO SYNTHESIZER (Sci-Fi Micro-Sounds)
-     * ======================================================================== */
-    let audioCtx = null;
-    let soundEnabled = true;
-
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-    }
-
-    function toggleAudio() {
-      soundEnabled = !soundEnabled;
-      document.getElementById('audioToggle').textContent = soundEnabled ? '🔊 SFX: ON' : '🔇 SFX: OFF';
-    }
-
-    function playLaser(freq = 600, duration = 0.1) {
-      if (!soundEnabled) return;
-      initAudio();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + duration);
-      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
-    }
-
-    function playAlarm() {
-      if (!soundEnabled) return;
-      initAudio();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'square';
-      osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-      osc.frequency.setValueAtTime(440, audioCtx.currentTime + 0.1);
-      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.25);
-    }
-
-    /* ========================================================================
-     * NAVIGATION TAB SWITCHING
-     * ======================================================================== */
-    function switchTab(tabId) {
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
-
-      if (tabId === 'arena') {
-        document.querySelectorAll('.nav-btn')[0].classList.add('active');
-        document.getElementById('view-arena').classList.add('active');
-      } else if (tabId === 'studio') {
-        document.querySelectorAll('.nav-btn')[1].classList.add('active');
-        document.getElementById('view-studio').classList.add('active');
-        updateManifestPreview();
-      } else if (tabId === 'engines') {
-        document.querySelectorAll('.nav-btn')[2].classList.add('active');
-        document.getElementById('view-engines').classList.add('active');
-        switchEngine('godot');
-      }
-    }
-
-    /* ========================================================================
-     * ARENA SIMULATOR PHYSICS & RENDERING
-     * ======================================================================== */
-    const canvas = document.getElementById('simCanvas');
-    const ctx = canvas.getContext('2d');
-
-    const state = {
-      gravity: 9.81,
-      lowGravityMod: false,
-      zombieMod: false,
-      strikes: 0,
-      player: {
-        x: 480,
-        y: 450,
-        vx: 0,
-        vy: 0,
-        radius: 18,
-        isGrounded: true
-      },
-      keys: {},
-      particles: [],
-      zombies: [],
-      floatingTexts: []
-    };
-
-    window.addEventListener('keydown', (e) => {
-      state.keys[e.code] = true;
-      if (e.code === 'Space' && state.player.isGrounded) {
-        state.player.vy = state.lowGravityMod ? -14 : -11;
-        state.player.isGrounded = false;
-        playLaser(500, 0.12);
-        spawnParticles(state.player.x, state.player.y + 18, 12, '#00f0ff');
-      }
-    });
-
-    window.addEventListener('keyup', (e) => {
-      state.keys[e.code] = false;
-    });
-
-    function spawnParticles(x, y, count, color) {
-      for (let i = 0; i < count; i++) {
-        state.particles.push({
-          x, y,
-          vx: (Math.random() - 0.5) * 8,
-          vy: (Math.random() - 0.5) * 8 - 2,
-          radius: Math.random() * 3 + 1,
-          color: color,
-          life: 1.0,
-          decay: Math.random() * 0.04 + 0.02
-        });
-      }
-    }
-
-    function addFloatingText(x, y, text, color) {
-      state.floatingTexts.push({ x, y, text, color, life: 1.0 });
-    }
-
-    function addAuditLog(msg, type = 'allow') {
-      const log = document.getElementById('auditLog');
-      const now = new Date();
-      const timeStr = now.toTimeString().split(' ')[0];
-      const div = document.createElement('div');
-      div.className = 'log-line';
-      div.innerHTML = `
-        <span class="log-time">[${timeStr}]</span>
-        <span class="log-${type}">${msg}</span>
-      `;
-      log.appendChild(div);
-      log.scrollTop = log.scrollHeight;
-    }
-
-    /* MOD INTERACTION LOGIC */
-    function toggleLowGravity() {
-      state.lowGravityMod = !state.lowGravityMod;
-      const btn = document.getElementById('btn-toggle-grav');
-      const badge = document.getElementById('badge-low-grav');
-      const gravVal = document.getElementById('gravityVal');
-      const gravModState = document.getElementById('gravModState');
-
-      if (state.lowGravityMod) {
-        state.gravity = 2.40;
-        btn.textContent = 'Unload Low-Gravity Mod';
-        badge.textContent = 'INSTALLED (v1.3.0)';
-        badge.className = 'mod-status installed';
-        gravVal.textContent = '2.40 m/s²';
-        gravVal.style.color = 'var(--neon-cyan)';
-        gravModState.textContent = 'LOW-GRAV MOD';
-        addAuditLog("CALL world.set_gravity({ gravity: 2.40 }) -> GRANTED", "allow");
-        addFloatingText(state.player.x, state.player.y - 40, "LOW GRAVITY ACTIVE (-75% G)", "#00f0ff");
-        playLaser(800, 0.2);
-      } else {
-        state.gravity = 9.81;
-        btn.textContent = 'Load Low-Gravity Mod';
-        badge.textContent = 'UNLOADED';
-        badge.className = 'mod-status uninstalled';
-        gravVal.textContent = '9.81 m/s²';
-        gravVal.style.color = 'var(--neon-amber)';
-        gravModState.textContent = 'VANILLA';
-        addAuditLog("Module 'low-gravity' unloaded. Physics restored to 9.81 m/s²", "warn");
-      }
-    }
-
-    function toggleZombieSpawner() {
-      state.zombieMod = true;
-      const badge = document.getElementById('badge-zombies');
-      badge.textContent = 'ACTIVE';
-      badge.className = 'mod-status installed';
-
-      // Spawn 3 zombies
-      for (let i = 0; i < 3; i++) {
-        const x = i === 0 ? 100 : (i === 1 ? 860 : 200);
-        state.zombies.push({
-          id: Math.floor(Math.random() * 9000 + 1000),
-          x: x,
-          y: 455,
-          vx: 0,
-          speed: Math.random() * 1.5 + 1.2
-        });
-        spawnParticles(x, 455, 15, '#ff007f');
-      }
-
-      addAuditLog("EVENT round_start -> zombie-spawner emitted 3x world.spawn -> GRANTED", "allow");
-      addFloatingText(480, 200, "WAVE 1 SPAWNED (3x CYBER-ZOMBIES)", "#ff007f");
-      playLaser(350, 0.25);
-    }
-
-    function triggerHostileExploit() {
-      playAlarm();
-      const badge = document.getElementById('badge-malicious');
-      badge.textContent = 'TRAPPED';
-      badge.className = 'mod-status trapped';
-
-      state.strikes = Math.min(state.strikes + 1, 3);
-      document.getElementById('strikesVal').textContent = `${state.strikes} / 3 Strikes`;
-      document.getElementById('strikesFill').style.width = `${(state.strikes / 3) * 100}%`;
-
-      if (state.strikes >= 3) {
-        document.getElementById('breakerState').textContent = 'TRIPPED';
-        document.getElementById('breakerState').style.color = 'var(--neon-red)';
-      }
-
-      addAuditLog("SECURITY ALERT: malicious-mod invoked net.http (SSRF) -> DENIED", "deny");
-      addAuditLog("SECURITY TRAP: OutOfFuel trapped at 50,000 instructions! Frame preserved.", "deny");
-
-      // Show alert overlay
-      const alert = document.getElementById('shieldAlert');
-      alert.style.display = 'block';
-      spawnParticles(state.player.x, state.player.y, 40, '#ff3344');
-
-      setTimeout(() => {
-        alert.style.display = 'none';
-      }, 2500);
-    }
-
-    /* MAIN GAME TICK LOOP (60 Ticks/sec) */
-    function gameLoop() {
-      // 1. Player Movement
-      if (state.keys['KeyA'] || state.keys['ArrowLeft']) {
-        state.player.vx = -5;
-      } else if (state.keys['KeyD'] || state.keys['ArrowRight']) {
-        state.player.vx = 5;
-      } else {
-        state.player.vx *= 0.8;
-      }
-
-      state.player.x += state.player.vx;
-      if (state.player.x < 30) state.player.x = 30;
-      if (state.player.x > 930) state.player.x = 930;
-
-      // 2. Gravity & Jump
-      state.player.vy += state.gravity * 0.05;
-      state.player.y += state.player.vy;
-
-      const floorY = 460;
-      if (state.player.y >= floorY) {
-        state.player.y = floorY;
-        state.player.vy = 0;
-        state.player.isGrounded = true;
-      }
-
-      // 3. Update Zombies
-      state.zombies.forEach(z => {
-        if (z.x < state.player.x) z.x += z.speed;
-        if (z.x > state.player.x) z.x -= z.speed;
-      });
-
-      // 4. Update Particles
-      for (let i = state.particles.length - 1; i >= 0; i--) {
-        const p = state.particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.life -= p.decay;
-        if (p.life <= 0) state.particles.splice(i, 1);
-      }
-
-      // 5. Update Floating Texts
-      for (let i = state.floatingTexts.length - 1; i >= 0; i--) {
-        const ft = state.floatingTexts[i];
-        ft.y -= 1.0;
-        ft.life -= 0.015;
-        if (ft.life <= 0) state.floatingTexts.splice(i, 1);
-      }
-
-      // 6. Render Canvas
-      render();
-
-      requestAnimationFrame(gameLoop);
-    }
-
-    function render() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw Cyberpunk Grid
-      ctx.strokeStyle = 'rgba(0, 240, 255, 0.08)';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < canvas.width; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
-      for (let y = 0; y < canvas.height; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-      }
-
-      // Draw Floor Platform
-      ctx.fillStyle = '#0a101d';
-      ctx.fillRect(0, 480, canvas.width, 60);
-
-      ctx.strokeStyle = state.lowGravityMod ? 'var(--neon-cyan)' : 'rgba(0, 240, 255, 0.4)';
-      ctx.lineWidth = 2;
-      ctx.shadowColor = state.lowGravityMod ? '#00f0ff' : 'transparent';
-      ctx.shadowBlur = state.lowGravityMod ? 15 : 0;
-      ctx.beginPath();
-      ctx.moveTo(0, 480);
-      ctx.lineTo(canvas.width, 480);
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-
-      // Draw Player
-      ctx.save();
-      ctx.shadowColor = '#00f0ff';
-      ctx.shadowBlur = 20;
-      ctx.fillStyle = '#00f0ff';
-      ctx.beginPath();
-      ctx.arc(state.player.x, state.player.y, state.player.radius, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Inner Core
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(state.player.x, state.player.y, state.player.radius * 0.5, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-
-      // Draw Zombies
-      state.zombies.forEach(z => {
-        ctx.save();
-        ctx.shadowColor = '#ff007f';
-        ctx.shadowBlur = 15;
-        ctx.fillStyle = '#ff007f';
-        ctx.beginPath();
-        ctx.rect(z.x - 12, z.y - 12, 24, 24);
-        ctx.fill();
-
-        // Eye
-        ctx.fillStyle = '#ffe600';
-        ctx.beginPath();
-        ctx.arc(z.x, z.y, 4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
-
-      // Draw Particles
-      state.particles.forEach(p => {
-        ctx.save();
-        ctx.globalAlpha = p.life;
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
-
-      // Draw Floating Texts
-      state.floatingTexts.forEach(ft => {
-        ctx.save();
-        ctx.globalAlpha = ft.life;
-        ctx.fillStyle = ft.color;
-        ctx.font = 'bold 16px Outfit, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.shadowColor = ft.color;
-        ctx.shadowBlur = 10;
-        ctx.fillText(ft.text, ft.x, ft.y);
-        ctx.restore();
-      });
-    }
-
-    requestAnimationFrame(gameLoop);
-
-    /* ========================================================================
-     * CAPABILITY STUDIO YAML GENERATOR
-     * ======================================================================== */
-    function updateManifestPreview() {
-      const g = document.getElementById('perm-gravity').checked;
-      const s = document.getElementById('perm-spawn').checked;
-      const u = document.getElementById('perm-ui').checked;
-      const n = document.getElementById('perm-net').checked;
-      const f = document.getElementById('perm-fs').checked;
-
-      let caps = [];
-      if (g) caps.push(`  - name: world.set_gravity\n    category: gameplay\n    max_calls_per_tick: 5\n    location: ServerAndClient`);
-      if (s) caps.push(`  - name: world.spawn\n    category: entities\n    max_calls_per_tick: 10\n    location: ServerOnly`);
-      if (u) caps.push(`  - name: ui.notify\n    category: ui\n    max_calls_per_tick: 2\n    location: ClientOnly`);
-      if (n) caps.push(`  - name: net.http\n    category: network\n    max_calls_per_tick: 0 # DENIED BY DEFAULT`);
-      if (f) caps.push(`  - name: fs.raw_disk\n    category: storage\n    max_calls_per_tick: 0 # DENIED BY DEFAULT`);
-
-      const yaml = `schema_version: "1.0.0"
-contract_id: "custom-game-v1"
-runtime:
-  wasm_engine: "wasmtime-48"
-  fuel_limit_per_tick: 100000
-  memory_limit_pages: 256 # 16 MB max linear memory
-  circuit_breaker_threshold: 3
-
-capabilities:
-${caps.join('\n\n')}`;
-
-      document.getElementById('yamlPreview').textContent = yaml;
-    }
-
-    /* ========================================================================
-     * ENGINE BRIDGES PREVIEW
-     * ======================================================================== */
-    const codeSnippets = {
-      godot: `extends Node
-
-@onready var worldvm = WorldVM.new()
-
-func _ready():
-    # 1. Initialize runtime
-    worldvm.initialize()
-
-    # 2. Expose safe engine capability
-    worldvm.expose("world.set_gravity", func(input):
-        var gravity = input.get("gravity", 9.81)
-        PhysicsServer3D.area_set_param(
-            get_viewport().find_world_3d().space, 
-            PhysicsServer3D.AREA_PARAM_GRAVITY, 
-            gravity
-        )
-    )
-
-    # 3. Load creator package
-    worldvm.load_package("res://mods/low-gravity.worldmod")
-
-    # 4. Dispatch gameplay event
-    worldvm.emit_event("round_start", { "round": 1 })`,
-
-      unity: `using UnityEngine;
-using WorldVM;
-
-public class GameController : MonoBehaviour
-{
-    void Start()
-    {
-        // 1. Initialize runtime with contract
-        WorldVMRuntime.Initialize();
-
-        // 2. Load creator .worldmod package
-        byte[] packageBytes = System.IO.File.ReadAllBytes("Assets/Mods/low-gravity.worldmod");
-        WorldVMRuntime.LoadModule(packageBytes);
-
-        // 3. Emit match event
-        WorldVMRuntime.EmitEvent("low-gravity", "round_start", "{}");
-    }
-}`,
-
-      unreal: `#include "WorldVMSubsystem.h"
-
-void AMyGameMode::BeginPlay()
-{
-    Super::BeginPlay();
-
-    UWorldVMSubsystem* WorldVM = GetGameInstance()->GetSubsystem<UWorldVMSubsystem>();
-    if (WorldVM)
-    {
-        // 1. Initialize runtime
-        WorldVM->InitializeRuntime();
-
-        // 2. Load creator .worldmod
-        WorldVM->LoadWorldMod(TEXT("Content/Mods/low-gravity.worldmod"));
-
-        // 3. Emit event
-        WorldVM->EmitWorldVMEvent(TEXT("low-gravity"), TEXT("round_start"), TEXT("{}"));
-    }
-}`,
-
-      rust: `use worldvm_runtime::WorldVmRuntime;
-use worldvm_capabilities::WorldCapabilityContract;
-use worldvm_package::WorldModPackage;
-
-// 1. Define game contract
-let contract = WorldCapabilityContract::standard_arcade_contract("neon-arena");
-let mut runtime = WorldVmRuntime::new(contract, my_game_host, false)?;
-
-// 2. Load creator .worldmod
-let pkg = WorldModPackage::from_file("mods/low-gravity.worldmod")?;
-runtime.load_module(pkg)?;
-
-// 3. Emit 60Hz tick event
-runtime.emit_event("low-gravity", "round_start", b"{}")?;`
-    };
-
-    function switchEngine(engine) {
-      document.querySelectorAll('.engine-tab').forEach(tab => tab.classList.remove('active'));
-      const tabs = document.querySelectorAll('.engine-tab');
-      if (engine === 'godot') tabs[0].classList.add('active');
-      if (engine === 'unity') tabs[1].classList.add('active');
-      if (engine === 'unreal') tabs[2].classList.add('active');
-      if (engine === 'rust') tabs[3].classList.add('active');
-
-      document.getElementById('engineCodePreview').textContent = codeSnippets[engine];
-    }
-
-    // Initial setup
-    updateManifestPreview();
-    switchEngine('godot');
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
