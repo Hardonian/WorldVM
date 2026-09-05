@@ -980,6 +980,7 @@ name = "reference-game"
 version = "1.0.0"
 dependencies = [
  "colored",
+ "hex",
  "parking_lot",
  "serde",
  "serde_json",
