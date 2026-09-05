@@ -40,6 +40,9 @@ pub fn run_all_red_team_scenarios() -> Vec<RedTeamResult> {
         s013_circuit_breaker(),
         s014_economy_overflow(),
         s015_unload_safety(),
+        s016_adaptive_anomaly_detection(),
+        s017_tarpit_and_signature(),
+        s018_marketplace_splits_and_receipts(),
     ]
 }
 
@@ -405,3 +408,114 @@ pub fn s015_unload_safety() -> RedTeamResult {
         details: format!("Unloaded: {}, Post-unload execution: {:?}", unloaded, res),
     }
 }
+
+/// S016: Adaptive behavioral anomaly detection (fuel drift detection).
+pub fn s016_adaptive_anomaly_detection() -> RedTeamResult {
+    let sentinel = worldvm_sentinel::AdaptiveThreatDetector::new();
+
+    // 1. Establish normal baseline of 500 fuel
+    for _ in 0..10 {
+        let _ = sentinel.evaluate("drift-mod", 500, 1, false, 0.2);
+    }
+
+    // 2. Mod starts drifting upwards (surge fuel)
+    let assessment = sentinel.evaluate("drift-mod", 15_000, 8, false, 0.4);
+    let passed = assessment.threat_level == worldvm_sentinel::ThreatLevel::Elevated
+        && assessment.anomaly_score >= 0.30
+        && assessment.tarpit_delay_us > 0;
+
+    RedTeamResult {
+        scenario_id: "S016".to_string(),
+        name: "Adaptive Behavioral Anomaly Detection".to_string(),
+        passed,
+        details: format!(
+            "Score: {:.2}, Level: {:?}, Tarpit Delay: {}us",
+            assessment.anomaly_score, assessment.threat_level, assessment.tarpit_delay_us
+        ),
+    }
+}
+
+/// S017: Tarpit defense & automated threat signature generation.
+pub fn s017_tarpit_and_signature() -> RedTeamResult {
+    let sentinel = worldvm_sentinel::AdaptiveThreatDetector::new();
+
+    // Mod triggers critical attack with high-entropy payload and forbidden capability probe
+    let assessment = sentinel.evaluate("exploit-mod", 45_000, 30, true, 0.95);
+
+    let signatures = sentinel.signatures().list_signatures();
+    let has_signature = !signatures.is_empty();
+    let passed = assessment.threat_level == worldvm_sentinel::ThreatLevel::Critical
+        && assessment.should_quarantine
+        && has_signature;
+
+    RedTeamResult {
+        scenario_id: "S017".to_string(),
+        name: "Tarpit Defense & Automated Signature Generation".to_string(),
+        passed,
+        details: format!(
+            "Level: {:?}, Quarantined: {}, Signatures Generated: {}",
+            assessment.threat_level, assessment.should_quarantine, signatures.len()
+        ),
+    }
+}
+
+/// S018: Marketplace integer revenue splits & signed compute receipts.
+pub fn s018_marketplace_splits_and_receipts() -> RedTeamResult {
+    use worldvm_metering::{ComputeReceipt, MarketplaceLedger, RevenueSharePolicy};
+    use worldvm_signing::generate_keypair;
+
+    let ledger = MarketplaceLedger::new();
+    let policy = RevenueSharePolicy::default(); // 70 / 20 / 10
+
+    // Purchase $25.00 item
+    let tx = ledger.process_purchase(
+        "buyer_123",
+        "creator_samurai",
+        "neon-arena",
+        "katana-pack",
+        "item_gold_blade",
+        2500,
+        &policy,
+    );
+
+    let split_ok = tx.split.creator_amount == 1750  // $17.50
+        && tx.split.studio_amount == 500            // $5.00
+        && tx.split.platform_amount == 250          // $2.50
+        && (tx.split.creator_amount + tx.split.studio_amount + tx.split.platform_amount == 2500);
+
+    // Generate and sign compute receipt
+    let (sk, pk) = generate_keypair();
+    let pk_hex = hex::encode(pk.as_bytes());
+
+    let mut receipt = ComputeReceipt {
+        receipt_id: "rec_s018".to_string(),
+        game_id: "neon-arena".to_string(),
+        module_id: "katana-pack".to_string(),
+        module_hash: "hash_katana_001".to_string(),
+        fuel_consumed: 120_000,
+        memory_peak_bytes: 8 * 1024 * 1024,
+        execution_time_us: 45,
+        credits_billed: 12,
+        content_hash: String::new(),
+        timestamp: 1700000000,
+        host_signature: None,
+    };
+
+    receipt.sign(&sk);
+    let verify_ok = receipt.verify(&pk_hex).unwrap_or(false);
+
+    let passed = split_ok && verify_ok;
+    RedTeamResult {
+        scenario_id: "S018".to_string(),
+        name: "Marketplace Revenue Splits & Signed Compute Receipts".to_string(),
+        passed,
+        details: format!(
+            "Split Verified: {} (Creator: ${:.2}, Platform: ${:.2}), Receipt Sig: {}",
+            split_ok,
+            tx.split.creator_amount as f64 / 100.0,
+            tx.split.platform_amount as f64 / 100.0,
+            verify_ok
+        ),
+    }
+}
+

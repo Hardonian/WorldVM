@@ -31,6 +31,22 @@ function playLaser(freq = 600, duration = 0.1) {
   osc.stop(audioCtx.currentTime + duration);
 }
 
+function playCoin() {
+  if (!soundEnabled) return;
+  initAudio();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(987.77, audioCtx.currentTime); // B5
+  osc.frequency.setValueAtTime(1318.51, audioCtx.currentTime + 0.08); // E6
+  gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.35);
+}
+
 function playAlarm() {
   if (!soundEnabled) return;
   initAudio();
@@ -54,16 +70,21 @@ function switchTab(tabId) {
   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
 
-  if (tabId === 'arena') {
-    document.querySelectorAll('.nav-btn')[0].classList.add('active');
-    document.getElementById('view-arena').classList.add('active');
-  } else if (tabId === 'studio') {
-    document.querySelectorAll('.nav-btn')[1].classList.add('active');
-    document.getElementById('view-studio').classList.add('active');
+  const navIndex = {
+    arena: 0,
+    sentinel: 1,
+    marketplace: 2,
+    studio: 3,
+    engines: 4
+  };
+
+  const idx = navIndex[tabId] !== undefined ? navIndex[tabId] : 0;
+  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  document.getElementById(`view-${tabId}`).classList.add('active');
+
+  if (tabId === 'studio') {
     updateManifestPreview();
   } else if (tabId === 'engines') {
-    document.querySelectorAll('.nav-btn')[2].classList.add('active');
-    document.getElementById('view-engines').classList.add('active');
     switchEngine('godot');
   }
 }
@@ -79,6 +100,7 @@ const state = {
   lowGravityMod: false,
   zombieMod: false,
   strikes: 0,
+  threatScore: 0.08,
   player: {
     x: 480,
     y: 450,
@@ -90,7 +112,12 @@ const state = {
   keys: {},
   particles: [],
   zombies: [],
-  floatingTexts: []
+  floatingTexts: [],
+  revenue: {
+    creator: 0,
+    studio: 0,
+    platform: 0
+  }
 };
 
 window.addEventListener('keydown', (e) => {
@@ -176,7 +203,6 @@ function toggleZombieSpawner() {
   badge.textContent = 'ACTIVE';
   badge.className = 'mod-status installed';
 
-  // Spawn 3 zombies
   for (let i = 0; i < 3; i++) {
     const x = i === 0 ? 100 : (i === 1 ? 860 : 200);
     state.zombies.push({
@@ -209,10 +235,46 @@ function triggerHostileExploit() {
     document.getElementById('breakerState').className = 'text-red';
   }
 
-  addAuditLog("SECURITY ALERT: malicious-mod invoked net.http (SSRF) -> DENIED", "deny");
-  addAuditLog("SECURITY TRAP: OutOfFuel trapped at 50,000 instructions! Frame preserved.", "deny");
+  // Update Sentinel Threat Radar
+  state.threatScore = 0.94;
+  document.getElementById('sentinelStatusPill').textContent = 'CRITICAL';
+  document.getElementById('sentinelStatusPill').className = 'text-red';
+  document.getElementById('sentinelScoreVal').textContent = '0.94 CRITICAL';
+  document.getElementById('sentinelScoreVal').className = 'tele-value text-red';
+  document.getElementById('sentinelFill').style.width = '94%';
+  document.getElementById('sentinelFill').className = 'progress-fill bg-fill-red';
 
-  // Show alert overlay
+  // Radar View elements
+  const radarScore = document.getElementById('sentinelRadarScore');
+  if (radarScore) {
+    radarScore.textContent = '0.94 / 1.00';
+    radarScore.className = 'tele-value text-red';
+    document.getElementById('sentinelLevelTag').textContent = 'CRITICAL ANOMALY';
+    document.getElementById('sentinelLevelTag').className = 'text-red';
+    document.getElementById('sentinelRadarFill').style.width = '94%';
+    document.getElementById('sentinelRadarFill').className = 'progress-fill bg-fill-red';
+    document.getElementById('tarpitStatus').textContent = 'ENGAGED (5,000 µs)';
+    document.getElementById('tarpitStatus').className = 'text-red';
+    document.getElementById('tarpitDelayVal').textContent = '5,000 µs Delay';
+    document.getElementById('tarpitDelayVal').className = 'tele-value text-red';
+    document.getElementById('tarpitFill').style.width = '100%';
+    document.getElementById('tarpitFill').className = 'progress-fill bg-fill-red';
+
+    // Append generated signature
+    const sigLog = document.getElementById('signatureLog');
+    const now = new Date().toTimeString().split(' ')[0];
+    const sigDiv = document.createElement('div');
+    sigDiv.className = 'log-line';
+    sigDiv.innerHTML = `
+      <span class="log-time">[${now}]</span>
+      <span class="log-deny">SIG-E89F12BA0C4: SSRF + Infinite Fuel Depletion Vector Fingerprinted</span>
+    `;
+    sigLog.appendChild(sigDiv);
+  }
+
+  addAuditLog("SECURITY ALERT: malicious-mod invoked net.http (SSRF) -> DENIED", "deny");
+  addAuditLog("SENTINEL SHIELD: Autonomous anomaly score 0.94 -> Quarantining module", "deny");
+
   const alert = document.getElementById('shieldAlert');
   alert.style.display = 'block';
   spawnParticles(state.player.x, state.player.y, 40, '#ff3344');
@@ -222,9 +284,59 @@ function triggerHostileExploit() {
   }, 2500);
 }
 
+/* ========================================================================
+ * CREATOR MARKETPLACE SIMULATOR
+ * ======================================================================== */
+function simulatePurchase(itemName, grossCents) {
+  playCoin();
+
+  // 70% Creator, 20% Studio, 10% WorldVM
+  const creator = Math.floor(grossCents * 0.70);
+  const studio = Math.floor(grossCents * 0.20);
+  const platform = grossCents - creator - studio;
+
+  state.revenue.creator += creator;
+  state.revenue.studio += studio;
+  state.revenue.platform += platform;
+
+  document.getElementById('splitCreatorVal').textContent = `$${(state.revenue.creator / 100).toFixed(2)}`;
+  document.getElementById('splitStudioVal').textContent = `$${(state.revenue.studio / 100).toFixed(2)}`;
+  document.getElementById('splitPlatformVal').textContent = `$${(state.revenue.platform / 100).toFixed(2)}`;
+
+  const now = Math.floor(Date.now() / 1000);
+  const fakeHash = `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`;
+  const fakeSig = `4a8f9c2d1e0b5a6c7f8e9d0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c`;
+
+  const receipt = {
+    receipt_id: `rec_${now}_${Math.floor(Math.random() * 9000 + 1000)}`,
+    game_id: "neon-arena",
+    item_purchased: itemName,
+    gross_amount_usd: `$${(grossCents / 100).toFixed(2)}`,
+    revenue_split: {
+      creator_70pct: `$${(creator / 100).toFixed(2)}`,
+      studio_20pct: `$${(studio / 100).toFixed(2)}`,
+      worldvm_take_rate_10pct: `$${(platform / 100).toFixed(2)}`
+    },
+    metering: {
+      fuel_consumed: 14200,
+      execution_time_us: 17,
+      memory_peak_bytes: 4194304,
+      credits_billed: 5
+    },
+    cryptography: {
+      content_hash: fakeHash,
+      ed25519_signature: fakeSig,
+      verified: true
+    },
+    timestamp: now
+  };
+
+  document.getElementById('receiptPreview').textContent = JSON.stringify(receipt, null, 2);
+  addAuditLog(`MARKETPLACE: Purchased '${itemName}' for $${(grossCents / 100).toFixed(2)}. Platform fee: $${(platform / 100).toFixed(2)}`, "allow");
+}
+
 /* MAIN GAME TICK LOOP (60 Ticks/sec) */
 function gameLoop() {
-  // 1. Player Movement
   if (state.keys['KeyA'] || state.keys['ArrowLeft']) {
     state.player.vx = -5;
   } else if (state.keys['KeyD'] || state.keys['ArrowRight']) {
@@ -237,7 +349,6 @@ function gameLoop() {
   if (state.player.x < 30) state.player.x = 30;
   if (state.player.x > 930) state.player.x = 930;
 
-  // 2. Gravity & Jump
   state.player.vy += state.gravity * 0.05;
   state.player.y += state.player.vy;
 
@@ -248,13 +359,11 @@ function gameLoop() {
     state.player.isGrounded = true;
   }
 
-  // 3. Update Zombies
   state.zombies.forEach(z => {
     if (z.x < state.player.x) z.x += z.speed;
     if (z.x > state.player.x) z.x -= z.speed;
   });
 
-  // 4. Update Particles
   for (let i = state.particles.length - 1; i >= 0; i--) {
     const p = state.particles[i];
     p.x += p.vx;
@@ -263,7 +372,6 @@ function gameLoop() {
     if (p.life <= 0) state.particles.splice(i, 1);
   }
 
-  // 5. Update Floating Texts
   for (let i = state.floatingTexts.length - 1; i >= 0; i--) {
     const ft = state.floatingTexts[i];
     ft.y -= 1.0;
@@ -271,16 +379,14 @@ function gameLoop() {
     if (ft.life <= 0) state.floatingTexts.splice(i, 1);
   }
 
-  // 6. Render Canvas
   render();
-
   requestAnimationFrame(gameLoop);
 }
 
 function render() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw Cyberpunk Grid
+  // Grid
   ctx.strokeStyle = 'rgba(0, 240, 255, 0.08)';
   ctx.lineWidth = 1;
   for (let x = 0; x < canvas.width; x += 40) {
@@ -296,7 +402,7 @@ function render() {
     ctx.stroke();
   }
 
-  // Draw Floor Platform
+  // Floor
   ctx.fillStyle = '#0a101d';
   ctx.fillRect(0, 480, canvas.width, 60);
 
@@ -310,7 +416,7 @@ function render() {
   ctx.stroke();
   ctx.shadowBlur = 0;
 
-  // Draw Player
+  // Player
   ctx.save();
   ctx.shadowColor = '#00f0ff';
   ctx.shadowBlur = 20;
@@ -319,14 +425,13 @@ function render() {
   ctx.arc(state.player.x, state.player.y, state.player.radius, 0, Math.PI * 2);
   ctx.fill();
 
-  // Inner Core
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
   ctx.arc(state.player.x, state.player.y, state.player.radius * 0.5, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
 
-  // Draw Zombies
+  // Zombies
   state.zombies.forEach(z => {
     ctx.save();
     ctx.shadowColor = '#ff007f';
@@ -336,7 +441,6 @@ function render() {
     ctx.rect(z.x - 12, z.y - 12, 24, 24);
     ctx.fill();
 
-    // Eye
     ctx.fillStyle = '#ffe600';
     ctx.beginPath();
     ctx.arc(z.x, z.y, 4, 0, Math.PI * 2);
@@ -344,7 +448,7 @@ function render() {
     ctx.restore();
   });
 
-  // Draw Particles
+  // Particles
   state.particles.forEach(p => {
     ctx.save();
     ctx.globalAlpha = p.life;
@@ -355,7 +459,7 @@ function render() {
     ctx.restore();
   });
 
-  // Draw Floating Texts
+  // Floating Texts
   state.floatingTexts.forEach(ft => {
     ctx.save();
     ctx.globalAlpha = ft.life;
@@ -396,6 +500,11 @@ runtime:
   memory_limit_pages: 256 # 16 MB max linear memory
   circuit_breaker_threshold: 3
 
+sentinel:
+  mode: "adaptive_anomaly_detection"
+  tarpit_backpressure_us: 500
+  quarantine_threshold: 0.70
+
 capabilities:
 ${caps.join('\n\n')}`;
 
@@ -411,10 +520,7 @@ const codeSnippets = {
 @onready var worldvm = WorldVM.new()
 
 func _ready():
-    # 1. Initialize runtime
     worldvm.initialize()
-
-    # 2. Expose safe engine capability
     worldvm.expose("world.set_gravity", func(input):
         var gravity = input.get("gravity", 9.81)
         PhysicsServer3D.area_set_param(
@@ -423,11 +529,7 @@ func _ready():
             gravity
         )
     )
-
-    # 3. Load creator package
     worldvm.load_package("res://mods/low-gravity.worldmod")
-
-    # 4. Dispatch gameplay event
     worldvm.emit_event("round_start", { "round": 1 })`,
 
   unity: `using UnityEngine;
@@ -437,14 +539,9 @@ public class GameController : MonoBehaviour
 {
     void Start()
     {
-        // 1. Initialize runtime with contract
         WorldVMRuntime.Initialize();
-
-        // 2. Load creator .worldmod package
         byte[] packageBytes = System.IO.File.ReadAllBytes("Assets/Mods/low-gravity.worldmod");
         WorldVMRuntime.LoadModule(packageBytes);
-
-        // 3. Emit match event
         WorldVMRuntime.EmitEvent("low-gravity", "round_start", "{}");
     }
 }`,
@@ -454,17 +551,11 @@ public class GameController : MonoBehaviour
 void AMyGameMode::BeginPlay()
 {
     Super::BeginPlay();
-
     UWorldVMSubsystem* WorldVM = GetGameInstance()->GetSubsystem<UWorldVMSubsystem>();
     if (WorldVM)
     {
-        // 1. Initialize runtime
         WorldVM->InitializeRuntime();
-
-        // 2. Load creator .worldmod
         WorldVM->LoadWorldMod(TEXT("Content/Mods/low-gravity.worldmod"));
-
-        // 3. Emit event
         WorldVM->EmitWorldVMEvent(TEXT("low-gravity"), TEXT("round_start"), TEXT("{}"));
     }
 }`,
@@ -473,15 +564,12 @@ void AMyGameMode::BeginPlay()
 use worldvm_capabilities::WorldCapabilityContract;
 use worldvm_package::WorldModPackage;
 
-// 1. Define game contract
 let contract = WorldCapabilityContract::standard_arcade_contract("neon-arena");
 let mut runtime = WorldVmRuntime::new(contract, my_game_host, false)?;
 
-// 2. Load creator .worldmod
 let pkg = WorldModPackage::from_file("mods/low-gravity.worldmod")?;
 runtime.load_module(pkg)?;
 
-// 3. Emit 60Hz tick event
 runtime.emit_event("low-gravity", "round_start", b"{}")?;`
 };
 

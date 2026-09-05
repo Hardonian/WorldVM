@@ -23,6 +23,8 @@
 
     <div class="header-links">
       <button class="nav-btn active" onclick="switchTab('arena')">🎮 Arena Simulator</button>
+      <button class="nav-btn" onclick="switchTab('sentinel')">👁️ Sentinel AI</button>
+      <button class="nav-btn" onclick="switchTab('marketplace')">💎 Creator Economy</button>
       <button class="nav-btn" onclick="switchTab('studio')">🛡️ Capability Studio</button>
       <button class="nav-btn" onclick="switchTab('engines')">⚡ Engine Bridges</button>
       <span class="sound-badge" id="audioToggle" onclick="toggleAudio()">🔊 SFX: ON</span>
@@ -36,7 +38,7 @@
         <h1>Turn Any Game Into A <span class="gradient-text">Creator Platform</span></h1>
         <p>
           WorldVM runs creator-authored gameplay code safely inside <strong>Unity, Unreal, Godot</strong> and custom engines.
-          Deterministic instruction fuel metering, capability permissions, and microsecond frame budgets.
+          Autonomous adaptive threat detection, 70/20/10 marketplace monetization, and microsecond frame budgets.
         </p>
         <div class="hero-stats">
           <div class="stat-pill">
@@ -44,12 +46,12 @@
             <div class="stat-lbl">P99 Frame Latency</div>
           </div>
           <div class="stat-pill">
-            <div class="stat-val">25 / 25</div>
+            <div class="stat-val">28 / 28</div>
             <div class="stat-lbl">Red Team Defenses</div>
           </div>
           <div class="stat-pill">
-            <div class="stat-val">16 MB</div>
-            <div class="stat-lbl">Bounded Memory</div>
+            <div class="stat-val">70 / 20 / 10</div>
+            <div class="stat-lbl">Creator Split Model</div>
           </div>
         </div>
       </div>
@@ -69,12 +71,12 @@
 
         <div class="telemetry-card">
           <div class="tele-header">
-            <span>Fuel Consumption</span>
-            <span id="fuelPercent">10%</span>
+            <span>Sentinel Threat Level</span>
+            <span class="text-green" id="sentinelStatusPill">NOMINAL</span>
           </div>
-          <div class="tele-value text-cyan" id="fuelVal">50,000</div>
+          <div class="tele-value text-green" id="sentinelScoreVal">0.08 Score</div>
           <div class="progress-track">
-            <div class="progress-fill bg-fill-cyan" id="fuelFill"></div>
+            <div class="progress-fill bg-fill-green" id="sentinelFill"></div>
           </div>
         </div>
 
@@ -115,7 +117,7 @@
           <div class="shield-alert" id="shieldAlert">
             ⚠️ HOSTILE THREAT CONTAINED<br>
             <span class="alert-subtext" id="alertReason">
-              Trapped OutOfFuel (50,000 instructions)
+              Sentinel Anomaly: OutOfFuel trapped at 50,000 instructions!
             </span>
           </div>
         </div>
@@ -179,14 +181,163 @@
             </div>
             <div class="log-line">
               <span class="log-time">[00:00:01]</span>
-              <span class="log-allow">Standard Arcade Capability Contract attached</span>
+              <span class="log-allow">Sentinel AI Adaptive Threat Detector armed</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- VIEW 2: CAPABILITY STUDIO -->
+    <!-- VIEW 2: SENTINEL AI RADAR -->
+    <section id="view-sentinel" class="view-container">
+      <div class="studio-grid">
+        <div class="studio-panel">
+          <div class="panel-title">
+            <span>👁️ Autonomous Threat Sentinel</span>
+          </div>
+          <p class="studio-desc">
+            Continuous online statistical learning (EWMA variance + Shannon entropy) detecting zero-day exploits, timing attacks, and fuel exhaustion loops in &lt;2 µs.
+          </p>
+
+          <div class="telemetry-bar" style="margin-top: 1.5rem; grid-template-columns: 1fr 1fr;">
+            <div class="telemetry-card">
+              <div class="tele-header">
+                <span>Threat Status</span>
+                <span id="sentinelLevelTag" class="text-green">NORMAL</span>
+              </div>
+              <div class="tele-value text-green" id="sentinelRadarScore">0.08 / 1.00</div>
+              <div class="progress-track">
+                <div class="progress-fill bg-fill-green" id="sentinelRadarFill" style="width: 8%;"></div>
+              </div>
+            </div>
+
+            <div class="telemetry-card">
+              <div class="tele-header">
+                <span>Tarpit Backpressure</span>
+                <span id="tarpitStatus" class="text-cyan">NOMINAL (0 µs)</span>
+              </div>
+              <div class="tele-value text-cyan" id="tarpitDelayVal">0 µs Delay</div>
+              <div class="progress-track">
+                <div class="progress-fill bg-fill-cyan" id="tarpitFill" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-title panel-title-spaced" style="margin-top: 1.5rem;">
+            <span>🔬 Behavioral Profiling Vectors</span>
+          </div>
+          <div class="toggle-list">
+            <div class="toggle-item">
+              <div class="toggle-info">
+                <span class="toggle-title">Fuel Burn Rate (EWMA)</span>
+                <span class="toggle-desc" id="sentinelEwmaFuel">Baseline: 520 instructions (Variance: 42.1)</span>
+              </div>
+              <span class="mod-status installed">HEALTHY</span>
+            </div>
+            <div class="toggle-item">
+              <div class="toggle-info">
+                <span class="toggle-title">Call Frequency Velocity</span>
+                <span class="toggle-desc" id="sentinelCallRate">Burst Factor: 1.2 calls/tick (Quota: 32)</span>
+              </div>
+              <span class="mod-status installed">WITHIN ENVELOPE</span>
+            </div>
+            <div class="toggle-item">
+              <div class="toggle-info">
+                <span class="toggle-title">Payload Shannon Entropy</span>
+                <span class="toggle-desc" id="sentinelEntropyVal">Entropy: 0.38 bits/byte (Threshold: 0.85)</span>
+              </div>
+              <span class="mod-status installed">UNCOMPRESSED TEXT</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="studio-panel">
+          <div class="panel-title">
+            <span>⚡ Automated Threat Signatures Generated</span>
+          </div>
+          <p class="studio-desc">
+            When zero-day exploits are intercepted, Sentinel automatically fingerprints the vector into a global cross-studio threat database.
+          </p>
+          <div class="audit-log" id="signatureLog" style="height: 360px; margin-top: 1rem;">
+            <div class="log-line">
+              <span class="log-time">[SIG-SYS-INIT]</span>
+              <span class="log-allow">Global threat signature cache synchronized (0 active local threats)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: CREATOR ECONOMY & MARKETPLACE -->
+    <section id="view-marketplace" class="view-container">
+      <div class="studio-grid">
+        <div class="studio-panel">
+          <div class="panel-title">
+            <span>💎 Creator Store & Revenue Splits</span>
+          </div>
+          <p class="studio-desc">
+            In-game creator commerce powered by capability contracts. Every dollar is split deterministically: <strong>70% Creator</strong>, <strong>20% Studio</strong>, <strong>10% WorldVM</strong>.
+          </p>
+
+          <div class="mod-card" style="margin-top: 1rem;">
+            <div class="mod-header">
+              <span class="mod-name">Cyber Katana Weapon Pack</span>
+              <span class="text-green" style="font-family: var(--font-mono); font-weight: 700;">$10.00 USD</span>
+            </div>
+            <p class="mod-desc">
+              Custom animated glowing neon katana prefab by <em>@NeonArtisan</em>.
+            </p>
+            <button class="btn-action" onclick="simulatePurchase('Cyber Katana', 1000)">
+              Buy Now ($10.00)
+            </button>
+          </div>
+
+          <div class="mod-card" style="margin-top: 1rem;">
+            <div class="mod-header">
+              <span class="mod-name">Vampire Lord Boss Wave Mod</span>
+              <span class="text-green" style="font-family: var(--font-mono); font-weight: 700;">$25.00 USD</span>
+            </div>
+            <p class="mod-desc">
+              Custom scripted 3-phase AI arena boss encounter by <em>@DarkCreatives</em>.
+            </p>
+            <button class="btn-action" onclick="simulatePurchase('Vampire Lord', 2500)">
+              Buy Now ($25.00)
+            </button>
+          </div>
+
+          <!-- SPLIT BREAKDOWN -->
+          <div class="panel-title panel-title-spaced" style="margin-top: 1.5rem;">
+            <span>📊 Live Split Breakdown</span>
+          </div>
+          <div class="telemetry-bar" style="grid-template-columns: repeat(3, 1fr); margin-top: 0.5rem;">
+            <div class="telemetry-card">
+              <div class="tele-header"><span>Creator (70%)</span></div>
+              <div class="tele-value text-green" id="splitCreatorVal">$0.00</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="tele-header"><span>Studio (20%)</span></div>
+              <div class="tele-value text-cyan" id="splitStudioVal">$0.00</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="tele-header"><span>WorldVM (10%)</span></div>
+              <div class="tele-value text-amber" id="splitPlatformVal">$0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="studio-panel">
+          <div class="panel-title">
+            <span>📜 Cryptographic Compute & Transaction Receipt</span>
+          </div>
+          <p class="studio-desc">
+            Signed execution receipts verifiable by game servers and billing ledgers.
+          </p>
+          <div class="code-preview" id="receiptPreview" style="margin-top: 1rem; height: 360px;">// Make a purchase to generate a signed execution receipt...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: CAPABILITY STUDIO -->
     <section id="view-studio" class="view-container">
       <div class="studio-grid">
         <div class="studio-panel">
@@ -264,7 +415,7 @@
       </div>
     </section>
 
-    <!-- VIEW 3: ENGINE BRIDGES -->
+    <!-- VIEW 5: ENGINE BRIDGES -->
     <section id="view-engines" class="view-container">
       <div class="studio-panel">
         <div class="engine-nav">

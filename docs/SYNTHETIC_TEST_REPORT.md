@@ -6,18 +6,18 @@
 
 ## Executive Summary
 
-* **Total Tests Executed**: 25
-* **Passed**: 25
+* **Total Tests Executed**: 28
+* **Passed**: 28
 * **Failed**: 0
 * **Pass Rate**: 100.0%
-* **Duration**: 1105 ms
+* **Duration**: 1116 ms
 
-## Red Team Security Scenarios (S001 – S015)
+## Red Team Security Scenarios (S001 – S018)
 
 | ID | Attack Scenario | Status | Details |
 | --- | --- | --- | --- |
 | S001 | Infinite Loop Fuel Depletion | PASS | Result: Err(OutOfFuel { fuel_limit: 50000, consumed: 50000 }) |
-| S002 | Linear Memory Growth Containment | PASS | Result: Ok(ExecutionMetrics { invocations: 1, fuel_consumed: 10, execution_time_us: 611, host_calls: 0, memory_high_water_mark_bytes: 0, errors_encountered: 0 }) |
+| S002 | Linear Memory Growth Containment | PASS | Result: Ok(ExecutionMetrics { invocations: 1, fuel_consumed: 10, execution_time_us: 603, host_calls: 0, memory_high_water_mark_bytes: 0, errors_encountered: 0 }) |
 | S003 | Capability Escalation Defense | PASS | Escalation reached host: false, Denial: Some("Capability 'inventory.grant' denied: Permission denied for capability 'inventory.grant': Capability is not exposed by host contract") |
 | S004 | Forged Handle Safety | PASS | Forged handle response: Err(HostError { message: "Player 'forged_player_9999999' not found" }) |
 | S005 | Zip Slip Path Traversal Defense | PASS | Unpack result: Err(InvalidPackage { reason: "Malicious path traversal detected in package: ../../../root/shadow" }) |
@@ -25,12 +25,15 @@
 | S007 | Cross-Module State Isolation | PASS | Mod B read from Mod A's key: '' |
 | S008 | Cross-Game Policy Isolation | PASS | Contracts isolated by GameId: game_alpha vs game_beta |
 | S009 | Network SSRF Protection | PASS | SSRF call result: Err(PermissionDenied { capability: "network.http", reason: "SSRF Attempt blocked: internal address forbidden" }) |
-| S010 | Host Call Storm Quota Enforcement | PASS | Audit host call count: 32 (Target <= 32), Invocation: Ok(ExecutionMetrics { invocations: 1, fuel_consumed: 150010, execution_time_us: 21481, host_calls: 32, memory_high_water_mark_bytes: 0, errors_encountered: 9968 }) |
+| S010 | Host Call Storm Quota Enforcement | PASS | Audit host call count: 32 (Target <= 32), Invocation: Ok(ExecutionMetrics { invocations: 1, fuel_consumed: 150010, execution_time_us: 20973, host_calls: 32, memory_high_water_mark_bytes: 0, errors_encountered: 9968 }) |
 | S011 | Event Storm Resilience | PASS | Handled 50 consecutive trapped events without host crash |
 | S012 | Exclusive Capability ModSet Conflict | PASS | Conflict detected: true |
 | S013 | Circuit Breaker Automatic Disabling | PASS | Fourth invocation: Err(CircuitBreakerTripped { module_id: "buggy-trap-mod" }) |
 | S014 | Economy State Exact Integer Integrity | PASS | XP updated from 50 to expected 150: actual 150 |
 | S015 | Module Unload Lifecycle Cleanliness | PASS | Unloaded: true, Post-unload execution: Err(ModuleNotLoaded { module_id: "buggy-trap-mod" }) |
+| S016 | Adaptive Behavioral Anomaly Detection | PASS | Score: 0.49, Level: Elevated, Tarpit Delay: 500us |
+| S017 | Tarpit Defense & Automated Signature Generation | PASS | Level: Critical, Quarantined: true, Signatures Generated: 1 |
+| S018 | Marketplace Revenue Splits & Signed Compute Receipts | PASS | Split Verified: true (Creator: $17.50, Platform: $2.50), Receipt Sig: true |
 
 ## Multiplayer Determinism & Desync
 
@@ -46,9 +49,9 @@
 
 | Target Cadence | Target Frame Time | Avg Execution Time | P99 Latency | Budget Exceeded |
 | --- | --- | --- | --- | --- |
-| 30 Hz | 33333 us | 16.4 us | 94 us | 0 |
-| 60 Hz | 16667 us | 15.6 us | 27 us | 0 |
-| 120 Hz | 8333 us | 15.4 us | 24 us | 0 |
+| 30 Hz | 33333 us | 19.4 us | 110 us | 0 |
+| 60 Hz | 16667 us | 19.6 us | 83 us | 0 |
+| 120 Hz | 8333 us | 18.6 us | 31 us | 0 |
 
 ## Chaos & Fault Injection
 
