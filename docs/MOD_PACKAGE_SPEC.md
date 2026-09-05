@@ -69,6 +69,7 @@ subscribe = [
 ## 4. Security Constraints on Ingestion
 
 During `.worldmod` unpack and validation, the host engine verifies:
+
 1. **Zip Slip Protection**: Rejects any file containing `..`, absolute paths (e.g. `/etc/passwd`), or drive letters (`C:\`).
 2. **Decompression Bomb Guard**: Rejects archives where uncompressed size exceeds 128MB or compression ratio exceeds 50:1.
 3. **Native Binary Ban**: Rejects any archive containing dynamic libraries or executables (`.dll`, `.so`, `.dylib`, `.exe`, `.bat`, `.sh`).

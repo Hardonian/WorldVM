@@ -17,7 +17,7 @@ WorldVM operates under a **zero-trust execution model**. Creator-submitted gamep
 ## 2. Resource Exhaustion Protections
 
 | Attack Vector | Defense Mechanism | Behavior on Violation |
-|---|---|---|
+| --- | --- | --- |
 | **Infinite Loops** (`while(true) {}`) | Instruction Fuel Metering | Traps immediately when fuel reaches 0 (`OutOfFuel`). Execution aborts within <1ms. |
 | **Blocking Sleep / Spinlocks** | Epoch-based Deadlines | Engine background thread increments epoch counter. If deadline expires, guest traps. |
 | **Linear Memory Flooding** | Maximum Page Limits | Module trap occurs when attempting `memory.grow` beyond configured `memory_mb`. |
@@ -45,6 +45,7 @@ Every capability call made by a guest module undergoes a multi-phase check befor
 ## 4. Network SSRF Prevention
 
 WorldVM prevents Server-Side Request Forgery (SSRF) and local network enumeration:
+
 - **Private Subnet Denial**: Any request to `127.0.0.1`, `localhost`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, or `169.254.169.254` (cloud metadata) is rejected at the capability layer.
 - **Domain Allowlists**: Studios can restrict network access to an explicit list of trusted endpoints (e.g. `api.mygame.com`).
 
@@ -53,6 +54,7 @@ WorldVM prevents Server-Side Request Forgery (SSRF) and local network enumeratio
 ## 5. Cryptographic Packaging & Trust Chains
 
 Mods are distributed in signed `.worldmod` containers:
+
 - **Canonical SHA-256 Digest**: Computed over all archive entries in alphabetical order (excluding the signature file itself).
 - **Ed25519 Signatures**: Verified against studio public keys or verified creator identities.
 - **Tamper Evident**: Modifying even a single byte of WASM code or manifest configuration invalidates the signature.

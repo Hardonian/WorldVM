@@ -9,7 +9,7 @@ WorldVM enforces strict evidence classifications across all engine targets and r
 ## Evidence Classification Taxonomy
 
 | Classification Level | Definition | Scope of Guarantee |
-|---|---|---|
+| --- | --- | --- |
 | **`SIMULATION_VERIFIED`** | Fully executed against simulated and mock engine harnesses (e.g. `reference-game`, `SimWorld`, synthetic test lab). | Verified state mutations, deterministic replay, security containment, and cycle budgets. |
 | **`BUILD_VERIFIED`** | Dynamic libraries compiled, linked, symbols exported, C headers parsed, and native binaries validated against ABI specifications. | Guarantees linker compatibility, struct layouts, calling conventions, and absence of symbol conflicts. |
 | **`UNIT_VERIFIED`** | Language-specific bindings (C#, GDScript, C++) unit-tested for marshaling, memory lifetimes, and error code translations. | Guarantees API surface fidelity and binding correctness. |
@@ -20,7 +20,7 @@ WorldVM enforces strict evidence classifications across all engine targets and r
 ## Current Status Matrix
 
 | Target Engine / Component | Current Classification | Empirically Validated | Remaining Gap |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Native Rust Game Host** | `SIMULATION_VERIFIED` | Full multi-mod game loop, 60 Hz physics, dynamic gravity, entity spawning, security containment (`Neon Arena`). | None for standalone Rust runtimes. |
 | **C ABI Shared Library (`worldvm_c_api.dll`)** | `BUILD_VERIFIED` | Compiled with `clang`/`lld`, exported symbols checked, executable test linked and run. | Run on Linux `.so` and macOS `.dylib` in CI matrix. |
 | **Godot 4.x GDExtension** | `BUILD_VERIFIED` | Manifest `worldvm.gdextension` written, GDScript `WorldVM.gd` wrapper written, C ABI compatible. | Headless Godot binary execution in CI (`godot --headless --script test.gd`). |
@@ -34,17 +34,21 @@ WorldVM enforces strict evidence classifications across all engine targets and r
 ## Action Plan to Close Integration Gaps
 
 ### 1. Godot 4 Headless Test Runner
+
 - **Action**: Add GitHub Actions CI runner step downloading `godot-headless` for Linux/Windows.
 - **Verification**: Run `godot --headless --script sdk/godot/tests/test_worldvm.gd` to promote Godot to `SIMULATION_VERIFIED`.
 
 ### 2. Unity Test Runner Batchmode
+
 - **Action**: Configure a Unity Package Manager (UPM) sample project inside `sdk/unity/TestProject`.
 - **Verification**: Execute `Unity -batchmode -nographics -projectPath sdk/unity/TestProject -runTests` in a cloud runner with a valid Unity license to promote Unity to `SIMULATION_VERIFIED`.
 
 ### 3. Unreal Engine 5 Subsystem Build
+
 - **Action**: Run `GenerateProjectFiles.bat` and compile `WorldVMSubsystem` using Unreal Engine 5.4 UBT.
 - **Verification**: Load sample map with a UGC actor and call `InitWorldVM()`, promoting Unreal to `BUILD_VERIFIED` and subsequently `SIMULATION_VERIFIED`.
 
 ### 4. Mobile ARM64 Targets (Android / iOS)
+
 - **Action**: Cross-compile `worldvm-runtime` and `worldvm-c-api` for `aarch64-linux-android` and `aarch64-apple-ios`.
 - **Verification**: Verify Wasmtime memory bounds and fuel consumption on mobile chipsets with 32-bit linear memory constraints.

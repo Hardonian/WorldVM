@@ -34,6 +34,7 @@ cd my-gravity-mod
 ```
 
 This generates a project structure:
+
 ```text
 my-gravity-mod/
 ├── Cargo.toml
